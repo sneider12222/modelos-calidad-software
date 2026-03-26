@@ -890,6 +890,140 @@ Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según
 </tr>
 
 </table>
+    <h3>Resultados de la Evaluación</h3>
+
+<style>
+    .tabla-resultados {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .tabla-resultados th, 
+    .tabla-resultados td {
+        border: 1px solid #999;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .tabla-resultados th {
+        background: #1db954;
+        color: white;
+    }
+
+    .tabla-resultados tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    .tabla-resultados tr:hover {
+        background: #e8f8f0;
+    }
+
+    .left {
+        text-align: left;
+    }
+
+    .capacidad {
+        font-weight: bold;
+        background: #eafaf1;
+    }
+
+    .total {
+        background: #1db954;
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+    }
+</style>
+
+<table class="tabla-resultados">
+
+<tr>
+    <th>Capacidad</th>
+    <th>Puntaje Global</th>
+    <th>Factor</th>
+    <th>Puntaje Factor</th>
+    <th>Puntaje Obtenido</th>
+    <th>Puntaje Capacidad</th>
+</tr>
+
+<!-- OPERACIÓN -->
+<tr class="capacidad">
+    <td rowspan="4">Operación</td>
+    <td rowspan="4">40</td>
+    <td>Corrección</td>
+    <td>10</td>
+    <td>10</td>
+    <td rowspan="4">37.6</td>
+</tr>
+<tr>
+    <td>Confiabilidad</td>
+    <td>10</td>
+    <td>9.5</td>
+</tr>
+<tr>
+    <td>Usabilidad</td>
+    <td>10</td>
+    <td>10</td>
+</tr>
+<tr>
+    <td>Seguridad</td>
+    <td>10</td>
+    <td>8.2</td>
+</tr>
+
+<!-- TRANSICIÓN -->
+<tr class="capacidad">
+    <td rowspan="3">Transición</td>
+    <td rowspan="3">30</td>
+    <td>Portabilidad</td>
+    <td>10</td>
+    <td>10</td>
+    <td rowspan="3">28.2</td>
+</tr>
+<tr>
+    <td>Reusabilidad</td>
+    <td>10</td>
+    <td>8.7</td>
+</tr>
+<tr>
+    <td>Interoperabilidad</td>
+    <td>10</td>
+    <td>9.5</td>
+</tr>
+
+<!-- REVISIÓN -->
+<tr class="capacidad">
+    <td rowspan="3">Revisión</td>
+    <td rowspan="3">30</td>
+    <td>Mantenimiento</td>
+    <td>10</td>
+    <td>10</td>
+    <td rowspan="3">30</td>
+</tr>
+<tr>
+    <td>Flexibilidad</td>
+    <td>10</td>
+    <td>10</td>
+</tr>
+<tr>
+    <td>Pruebas</td>
+    <td>10</td>
+    <td>10</td>
+</tr>
+
+<!-- TOTAL -->
+<tr class="total">
+    <td>Puntaje Total</td>
+    <td>100</td>
+    <td>-</td>
+    <td>100</td>
+    <td>95.9</td>
+    <td>95.8</td>
+</tr>
+
+</table>
 </section>
 
 <section id="boehm">
