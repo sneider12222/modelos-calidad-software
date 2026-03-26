@@ -703,6 +703,193 @@ Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según
 </tr>
 
 </table>
+    <h3>Consolidación de Puntajes</h3>
+
+<style>
+    .tabla-consol {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 13px;
+    }
+
+    .tabla-consol th, 
+    .tabla-consol td {
+        border: 1px solid #999; /* 👈 LÍNEAS */
+        padding: 8px;
+        text-align: center;
+    }
+
+    .tabla-consol th {
+        background: #1db954;
+        color: white;
+    }
+
+    .tabla-consol tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    .tabla-consol tr:hover {
+        background: #e8f8f0;
+    }
+
+    .left {
+        text-align: left;
+    }
+
+    .bold {
+        font-weight: bold;
+        background: #eafaf1;
+    }
+
+    .total {
+        background: #1db954;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+<table class="tabla-consol">
+
+<tr>
+    <th rowspan="2">Métrica</th>
+    <th rowspan="2">Descripción</th>
+    <th colspan="4">Operación</th>
+    <th colspan="3">Transición</th>
+    <th colspan="3">Revisión</th>
+</tr>
+
+<tr>
+    <th>Corrección</th>
+    <th>Confiabilidad</th>
+    <th>Usabilidad</th>
+    <th>Seguridad</th>
+    <th>Portabilidad</th>
+    <th>Reusabilidad</th>
+    <th>Interoperabilidad</th>
+    <th>Mantenimiento</th>
+    <th>Flexibilidad</th>
+    <th>Pruebas</th>
+</tr>
+
+<tr>
+<td class="left">Compleción</td>
+<td class="left">Implementación de funciones</td>
+<td>4</td><td>4</td><td></td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Complejidad</td>
+<td class="left">Complejidad del sistema</td>
+<td></td><td></td><td>4</td><td></td>
+<td></td><td></td><td></td>
+<td>4</td><td>4</td><td></td>
+</tr>
+
+<tr>
+<td class="left">Concisión</td>
+<td class="left">Efectividad</td>
+<td></td><td></td><td>4</td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Consistencia</td>
+<td class="left">Diseño uniforme</td>
+<td>4</td><td>4</td><td></td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Eficiencia</td>
+<td class="left">Rendimiento</td>
+<td></td><td>4</td><td>4</td><td>4</td>
+<td></td><td></td><td></td>
+<td>4</td><td>4</td><td>4</td>
+</tr>
+
+<tr>
+<td class="left">Estandarización</td>
+<td class="left">Gestión de datos</td>
+<td>4</td><td></td><td></td><td></td>
+<td>4</td><td>4</td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Exactitud</td>
+<td class="left">Precisión</td>
+<td></td><td>4</td><td></td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Independencia</td>
+<td class="left">Compatibilidad</td>
+<td></td><td></td><td></td><td>4</td>
+<td></td><td>4</td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Modularidad</td>
+<td class="left">Organización</td>
+<td>4</td><td>4</td><td>4</td><td></td>
+<td></td><td>3</td><td>3</td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Operatividad</td>
+<td class="left">Facilidad de uso</td>
+<td>4</td><td></td><td>4</td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Seguridad</td>
+<td class="left">Protección de datos</td>
+<td></td><td>3</td><td>3</td><td>3</td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Simplicidad</td>
+<td class="left">Comprensión</td>
+<td></td><td>4</td><td>4</td><td>4</td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr class="bold">
+<td colspan="2">Promedio por Factor</td>
+<td>4.0</td><td>3.8</td><td>4.0</td><td>3.3</td>
+<td>4.0</td><td>3.5</td><td>3.8</td>
+<td>4.0</td><td>4.0</td><td>4.0</td>
+</tr>
+
+<tr class="bold">
+<td colspan="2">Escala por Factor</td>
+<td>10</td><td>9.5</td><td>10</td><td>8.2</td>
+<td>10</td><td>8.7</td><td>9.5</td>
+<td>10</td><td>10</td><td>10</td>
+</tr>
+
+<tr class="total">
+<td colspan="2">Promedio por Capacidad</td>
+<td colspan="4">9.4</td>
+<td colspan="3">9.4</td>
+<td colspan="3">10</td>
+</tr>
+
+</table>
 </section>
 
 <section id="boehm">
