@@ -276,44 +276,110 @@ footer {
 <section id="mccall">
     <h2>3. Modelo McCall</h2>
 
-    <p>
-        Modelo de calidad propuesto en 1977 que evalúa el software en tres capacidades:
-        operación, transición y revisión, desde la perspectiva del usuario.
-    </p>
+    <style>
+        .tabla-mccall {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-    <div class="mccall-box">
+        .tabla-mccall th {
+            background: #1db954;
+            color: white;
+            padding: 12px;
+        }
 
-        <div class="card">
-            <h3>⚙️ Operación (40)</h3>
-            <ul>
-                <li>Corrección (10)</li>
-                <li>Confiabilidad (10)</li>
-                <li>Usabilidad (10)</li>
-                <li>Seguridad (10)</li>
-            </ul>
-        </div>
+        .tabla-mccall td {
+            padding: 12px;
+            text-align: center;
+        }
 
-        <div class="card">
-            <h3>🔄 Transición (30)</h3>
-            <ul>
-                <li>Portabilidad (10)</li>
-                <li>Reusabilidad (10)</li>
-                <li>Interoperabilidad (10)</li>
-            </ul>
-        </div>
+        .tabla-mccall tr:nth-child(even) {
+            background: #f2f2f2;
+        }
 
-        <div class="card">
-            <h3>🛠️ Revisión (30)</h3>
-            <ul>
-                <li>Mantenimiento (10)</li>
-                <li>Flexibilidad (10)</li>
-                <li>Pruebas (10)</li>
-            </ul>
-        </div>
+        .tabla-mccall tr:hover {
+            background: #d4f5e1;
+            transition: 0.3s;
+            transform: scale(1.01);
+        }
 
-    </div>
+        .capacidad {
+            font-weight: bold;
+            background: #ecf9f1;
+        }
+    </style>
 
-    <p><b>Puntaje Total: 100</b></p>
+    <table class="tabla-mccall">
+
+        <tr>
+            <th>Capacidad</th>
+            <th>Puntaje</th>
+            <th>Factor</th>
+            <th>Puntaje</th>
+        </tr>
+
+        <!-- OPERACIÓN -->
+        <tr class="capacidad">
+            <td rowspan="4">Operación</td>
+            <td rowspan="4">40</td>
+            <td>Corrección</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Confiabilidad</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Usabilidad</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Integridad / Seguridad</td>
+            <td>10</td>
+        </tr>
+
+        <!-- TRANSICIÓN -->
+        <tr class="capacidad">
+            <td rowspan="3">Transición</td>
+            <td rowspan="3">30</td>
+            <td>Portabilidad</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Reusabilidad</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Interoperabilidad</td>
+            <td>10</td>
+        </tr>
+
+        <!-- REVISIÓN -->
+        <tr class="capacidad">
+            <td rowspan="3">Revisión</td>
+            <td rowspan="3">30</td>
+            <td>Facilidad de Mantenimiento</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Flexibilidad</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Facilidad de Prueba</td>
+            <td>10</td>
+        </tr>
+
+        <!-- TOTAL -->
+        <tr style="font-weight:bold; background:#1db954; color:white;">
+            <td colspan="2">Puntaje Total</td>
+            <td colspan="2">100</td>
+        </tr>
+
+    </table>
 </section>
 
 <section id="mccall">
