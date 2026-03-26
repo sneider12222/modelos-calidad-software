@@ -387,21 +387,167 @@ Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según
         </tr>
 
     </table>
-</section>
 
-<section id="mccall">
-    <h2>3. Modelo McCall</h2>
-    <p>Evalúa operación, transición y revisión del software.</p>
+    <h3>Relación entre Factores de Calidad y Métricas</h3>
 
-    <table>
-        <tr><th>Capacidad</th><th>Puntaje</th></tr>
-        <tr><td>Operación</td><td>37.6 / 40</td></tr>
-        <tr><td>Transición</td><td>28.2 / 30</td></tr>
-        <tr><td>Revisión</td><td>30 / 30</td></tr>
-    </table>
+<style>
+    .tabla-relacion {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        margin-top: 15px;
+    }
 
-    <h3>Resultado Final</h3>
-    <p><b>95.8 / 100</b></p>
+    .tabla-relacion th {
+        background: #1db954;
+        color: white;
+        padding: 8px;
+    }
+
+    .tabla-relacion td {
+        text-align: center;
+        padding: 8px;
+    }
+
+    .tabla-relacion tr:nth-child(even) {
+        background: #f2f2f2;
+    }
+
+    .tabla-relacion tr:hover {
+        background: #d4f5e1;
+        transition: 0.2s;
+    }
+
+    .check {
+        color: #1db954;
+        font-weight: bold;
+    }
+
+    .left {
+        text-align: left;
+    }
+</style>
+
+<table class="tabla-relacion">
+
+<tr>
+    <th rowspan="2">Métricas</th>
+    <th rowspan="2">Descripción</th>
+    <th colspan="4">Operación</th>
+    <th colspan="3">Transición</th>
+    <th colspan="3">Revisión</th>
+</tr>
+
+<tr>
+    <th>Corrección</th>
+    <th>Confiabilidad</th>
+    <th>Usabilidad</th>
+    <th>Seguridad</th>
+    <th>Portabilidad</th>
+    <th>Reusabilidad</th>
+    <th>Interoperabilidad</th>
+    <th>Mantenimiento</th>
+    <th>Flexibilidad</th>
+    <th>Pruebas</th>
+</tr>
+
+<tr>
+<td class="left">Compleción de funciones</td>
+<td class="left">Implementación de funciones requeridas</td>
+<td></td><td class="check">✔</td><td class="check">✔</td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Complejidad</td>
+<td class="left">Complejidad del sistema</td>
+<td></td><td class="check">✔</td><td></td><td></td>
+<td></td><td></td><td></td>
+<td class="check">✔</td><td class="check">✔</td><td></td>
+</tr>
+
+<tr>
+<td class="left">Concisión</td>
+<td class="left">Efectividad del recurso</td>
+<td></td><td></td><td class="check">✔</td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Consistencia</td>
+<td class="left">Diseño uniforme</td>
+<td class="check">✔</td><td class="check">✔</td><td></td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Eficiencia</td>
+<td class="left">Rendimiento en ejecución</td>
+<td></td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td>
+<td class="check">✔</td><td></td><td></td>
+<td class="check">✔</td><td class="check">✔</td><td class="check">✔</td>
+</tr>
+
+<tr>
+<td class="left">Estandarización</td>
+<td class="left">Uso uniforme de datos</td>
+<td class="check">✔</td><td></td><td></td><td></td>
+<td class="check">✔</td><td class="check">✔</td><td></td>
+<td class="check">✔</td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Exactitud</td>
+<td class="left">Precisión de cálculos</td>
+<td></td><td class="check">✔</td><td></td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Independencia</td>
+<td class="left">Independencia del sistema</td>
+<td></td><td></td><td class="check">✔</td><td class="check">✔</td>
+<td class="check">✔</td><td></td><td></td>
+<td class="check">✔</td><td class="check">✔</td><td class="check">✔</td>
+</tr>
+
+<tr>
+<td class="left">Modularidad</td>
+<td class="left">Independencia de componentes</td>
+<td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td></td>
+<td></td><td class="check">✔</td><td class="check">✔</td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Operatividad</td>
+<td class="left">Facilidad de uso</td>
+<td class="check">✔</td><td></td><td class="check">✔</td><td></td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Seguridad</td>
+<td class="left">Protección de datos</td>
+<td></td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td class="left">Simplicidad</td>
+<td class="left">Facilidad de comprensión</td>
+<td></td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td>
+<td></td><td></td><td></td>
+<td></td><td></td><td></td>
+</tr>
+
+</table>
 </section>
 
 <section id="boehm">
