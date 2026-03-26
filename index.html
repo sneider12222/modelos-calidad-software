@@ -567,6 +567,7 @@ Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según
     .tabla-cuestionario td {
         padding: 10px;
         text-align: center;
+        vertical-align: middle;
     }
 
     .tabla-cuestionario tr:nth-child(even) {
@@ -582,15 +583,17 @@ Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según
         text-align: left;
     }
 
-    .excelente {
-        color: #2ecc71;
+    .puntaje {
         font-weight: bold;
+        color: white;
+        border-radius: 5px;
+        padding: 5px;
     }
 
-    .bueno {
-        color: #3498db;
-        font-weight: bold;
-    }
+    .excelente { background: #2ecc71; }
+    .bueno { background: #3498db; }
+    .regular { background: #f1c40f; color: black; }
+    .malo { background: #e74c3c; }
 </style>
 
 <table class="tabla-cuestionario">
@@ -607,96 +610,96 @@ Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según
 <td>Compleción</td>
 <td class="left">Implementación de funciones</td>
 <td class="left">¿Permite reproducir y gestionar música?</td>
-<td class="excelente">Excelente</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Complejidad</td>
 <td class="left">Complejidad del sistema</td>
 <td class="left">¿La navegación es intuitiva?</td>
-<td class="excelente">Excelente</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Concisión</td>
 <td class="left">Efectividad del recurso</td>
 <td class="left">¿Cumple su objetivo?</td>
-<td class="excelente">Excelente</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Consistencia</td>
 <td class="left">Diseño uniforme</td>
 <td class="left">¿Funciona en distintos dispositivos?</td>
-<td class="bueno">Bueno</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje bueno">Bueno</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Eficiencia</td>
 <td class="left">Rendimiento</td>
 <td class="left">¿Carga rápido y sin fallos?</td>
-<td class="bueno">Bueno</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje bueno">Bueno</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Estandarización</td>
 <td class="left">Gestión de datos</td>
 <td class="left">¿Gestiona datos correctamente?</td>
-<td class="bueno">Bueno</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje bueno">Bueno</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Exactitud</td>
 <td class="left">Precisión</td>
 <td class="left">¿Reproduce correctamente?</td>
-<td class="excelente">Excelente</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Independencia</td>
 <td class="left">Compatibilidad</td>
 <td class="left">¿Funciona en varios sistemas?</td>
-<td class="bueno">Bueno</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje bueno">Bueno</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Modularidad</td>
 <td class="left">Organización</td>
 <td class="left">¿Organiza playlists correctamente?</td>
-<td class="bueno">Bueno</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje bueno">Bueno</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Operatividad</td>
 <td class="left">Facilidad de uso</td>
 <td class="left">¿Es fácil de usar?</td>
-<td class="excelente">Excelente</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 <tr>
 <td>Seguridad</td>
 <td class="left">Protección de datos</td>
 <td class="left">¿Protege datos del usuario?</td>
-<td class="excelente">Excelente</td>
-<td class="bueno">Bueno</td>
+<td class="puntaje excelente">Excelente</td>
+<td class="puntaje bueno">Bueno</td>
 </tr>
 
 <tr>
 <td>Simplicidad</td>
 <td class="left">Comprensión</td>
 <td class="left">¿Interfaz clara?</td>
-<td class="bueno">Bueno</td>
-<td class="excelente">Excelente</td>
+<td class="puntaje bueno">Bueno</td>
+<td class="puntaje excelente">Excelente</td>
 </tr>
 
 </table>
