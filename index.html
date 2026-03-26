@@ -189,14 +189,131 @@ footer {
 </section>
 
 <section>
-    <h2>2. Escala de Valoración</h2>
-    <table>
-        <tr><th>Descripción</th><th>Valor</th></tr>
-        <tr><td>Excelente</td><td>4</td></tr>
-        <tr><td>Bueno</td><td>3</td></tr>
-        <tr><td>Regular</td><td>2</td></tr>
-        <tr><td>Malo</td><td>1</td></tr>
+    <h2>2. Escala de Valoraciones</h2>
+
+    <style>
+        .escala {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .escala th {
+            background: #1db954;
+            color: white;
+            padding: 12px;
+        }
+
+        .escala td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .excelente { background: #2ecc71; color: white; }
+        .bueno { background: #3498db; color: white; }
+        .regular { background: #f1c40f; }
+        .malo { background: #e74c3c; color: white; }
+
+        .escala tr:hover {
+            transform: scale(1.02);
+            transition: 0.3s;
+        }
+
+        .mccall-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #1db954;
+        }
+
+        .card ul {
+            padding-left: 20px;
+        }
+    </style>
+
+    <table class="escala">
+        <tr>
+            <th>Descripción</th>
+            <th>Valor</th>
+        </tr>
+        <tr class="excelente">
+            <td>Excelente</td>
+            <td>4</td>
+        </tr>
+        <tr class="bueno">
+            <td>Bueno</td>
+            <td>3</td>
+        </tr>
+        <tr class="regular">
+            <td>Regular</td>
+            <td>2</td>
+        </tr>
+        <tr class="malo">
+            <td>Malo</td>
+            <td>1</td>
+        </tr>
     </table>
+</section>
+
+<section id="mccall">
+    <h2>3. Modelo McCall</h2>
+
+    <p>
+        Modelo de calidad propuesto en 1977 que evalúa el software en tres capacidades:
+        operación, transición y revisión, desde la perspectiva del usuario.
+    </p>
+
+    <div class="mccall-box">
+
+        <div class="card">
+            <h3>⚙️ Operación (40)</h3>
+            <ul>
+                <li>Corrección (10)</li>
+                <li>Confiabilidad (10)</li>
+                <li>Usabilidad (10)</li>
+                <li>Seguridad (10)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Transición (30)</h3>
+            <ul>
+                <li>Portabilidad (10)</li>
+                <li>Reusabilidad (10)</li>
+                <li>Interoperabilidad (10)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🛠️ Revisión (30)</h3>
+            <ul>
+                <li>Mantenimiento (10)</li>
+                <li>Flexibilidad (10)</li>
+                <li>Pruebas (10)</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <p><b>Puntaje Total: 100</b></p>
 </section>
 
 <section id="mccall">
