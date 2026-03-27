@@ -1029,14 +1029,145 @@ Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según
 
 <section id="boehm">
     <h2>4. Modelo Boehm</h2>
-    <p>Evalúa utilidad general, utilidad y mantenibilidad.</p>
+    <p>Presentado por Barry Boehm en 1978, introduce características de alto nivel, características de nivel intermedio y características primitivas, cada una de las cuales contribuye al nivel general de calidad.
+Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cuenta los niveles de cada característica
+</p>
+    <h3>Modelo Boehm</h3>
 
-    <table>
-        <tr><th>Categoría</th><th>Puntaje</th></tr>
-        <tr><td>Utilidad General</td><td>7.5</td></tr>
-        <tr><td>Utilidad</td><td>63.7</td></tr>
-        <tr><td>Mantenibilidad</td><td>18.8</td></tr>
-    </table>
+<style>
+.tabla-boehm {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.tabla-boehm th, .tabla-boehm td {
+    border: 1px solid black;
+    padding: 6px;
+    text-align: center;
+}
+
+.tabla-boehm th {
+    background: #f4c542;
+}
+
+.alto {
+    background: #d9c3ad;
+    font-weight: bold;
+}
+
+.utilidad {
+    background: #b7c3cf;
+}
+
+.manten {
+    background: #e6d8b5;
+}
+
+.vertical {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    background: #0b2c5f;
+    color: yellow;
+    font-weight: bold;
+}
+</style>
+
+<table class="tabla-boehm">
+
+<tr>
+<th></th>
+<th>CARACTERÍSTICAS DE ALTO NIVEL</th>
+<th>PUNTAJE</th>
+<th>CARACTERÍSTICAS DE NIVEL INTERMEDIO</th>
+<th>CARACTERÍSTICAS PRIMITIVAS</th>
+<th>PUNTAJE</th>
+</tr>
+
+<!-- UTILIDAD GENERAL -->
+<tr>
+<td class="vertical" rowspan="14">UTILIDAD GENERAL</td>
+<td class="alto" rowspan="2">PORTABILIDAD</td>
+<td class="alto" rowspan="2">10</td>
+<td rowspan="2"></td>
+<td>Independencia de Dispositivos</td>
+<td>5</td>
+</tr>
+
+<tr>
+<td>Auto-contención</td>
+<td>5</td>
+</tr>
+
+<!-- UTILIDAD -->
+<tr>
+<td class="utilidad" rowspan="9">UTILIDAD</td>
+<td class="utilidad" rowspan="9">70</td>
+<td rowspan="4">Fiabilidad</td>
+<td>Precisión</td>
+<td rowspan="4">40</td>
+</tr>
+
+<tr><td>Completitud</td></tr>
+<tr><td>Robustez</td></tr>
+<tr><td>Consistencia</td></tr>
+
+<tr>
+<td rowspan="3">Eficiencia</td>
+<td>Responsabilidad</td>
+<td rowspan="3">15</td>
+</tr>
+
+<tr><td>Eficiencia de dispositivos</td></tr>
+<tr><td>Accesibilidad</td></tr>
+
+<tr>
+<td rowspan="2">Interactividad</td>
+<td>Robustez</td>
+<td rowspan="2">15</td>
+</tr>
+
+<tr><td>Capacidad de comunicación</td></tr>
+
+<!-- MANTENIBILIDAD -->
+<tr>
+<td class="manten" rowspan="5">MANTENIBILIDAD</td>
+<td class="manten" rowspan="5">20</td>
+<td rowspan="2">Facilidad de Prueba</td>
+<td>Auto descripción</td>
+<td rowspan="2">5</td>
+</tr>
+
+<tr><td>Estructuración</td></tr>
+
+<tr>
+<td rowspan="2">Facilidad de Entendimiento</td>
+<td>Concisión</td>
+<td rowspan="2">10</td>
+</tr>
+
+<tr><td>Legibilidad</td></tr>
+
+<tr>
+<td rowspan="2">Modificabilidad</td>
+<td>Estructuración</td>
+<td rowspan="2">5</td>
+</tr>
+
+<tr>
+<td colspan="3">Escalabilidad</td>
+</tr>
+
+<!-- TOTAL -->
+<tr>
+<td colspan="2">Puntaje Total</td>
+<td>100</td>
+<td></td>
+<td></td>
+<td>100</td>
+</tr>
+
+</table>
 
     <h3>Resultado Final</h3>
     <p><b>90 / 100</b></p>
