@@ -1032,23 +1032,18 @@ Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según
     <p>Presentado por Barry Boehm en 1978, introduce características de alto nivel, características de nivel intermedio y características primitivas, cada una de las cuales contribuye al nivel general de calidad.
 Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cuenta los niveles de cada característica
 </p>
-    <h3>Modelo Boehm</h3>
+   <h3>Modelo Boehm</h3>
 
 <style>
-.contenedor-tabla {
-    overflow-x: auto; /* 👈 evita que se dañe en pantallas pequeñas */
-}
-
 .tabla-boehm {
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    min-width: 900px; /* 👈 mantiene estructura */
 }
 
 .tabla-boehm th, .tabla-boehm td {
-    border: 1px solid #333;
-    padding: 8px;
+    border: 1px solid black;
+    padding: 6px;
     text-align: center;
     vertical-align: middle;
 }
@@ -1057,18 +1052,9 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
     background: #f4c542;
 }
 
-.alto {
-    background: #d9c3ad;
-    font-weight: bold;
-}
-
-.utilidad {
-    background: #b7c3cf;
-}
-
-.manten {
-    background: #e6d8b5;
-}
+.alto { background: #d9c3ad; font-weight: bold; }
+.utilidad { background: #b7c3cf; }
+.manten { background: #e6d8b5; }
 
 .vertical {
     writing-mode: vertical-rl;
@@ -1076,15 +1062,8 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
     background: #0b2c5f;
     color: yellow;
     font-weight: bold;
-    letter-spacing: 2px;
-}
-
-.tabla-boehm tr:hover {
-    background: #eef7f1;
 }
 </style>
-
-<div class="contenedor-tabla">
 
 <table class="tabla-boehm">
 
@@ -1099,7 +1078,8 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
 
 <!-- UTILIDAD GENERAL -->
 <tr>
-<td class="vertical" rowspan="14">UTILIDAD GENERAL</td>
+<td class="vertical" rowspan="17">UTILIDAD GENERAL</td>
+
 <td class="alto" rowspan="2">PORTABILIDAD</td>
 <td class="alto" rowspan="2">10</td>
 <td rowspan="2"></td>
@@ -1116,6 +1096,7 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
 <tr>
 <td class="utilidad" rowspan="9">UTILIDAD</td>
 <td class="utilidad" rowspan="9">70</td>
+
 <td rowspan="4">Fiabilidad</td>
 <td>Precisión</td>
 <td rowspan="4">40</td>
@@ -1146,6 +1127,7 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
 <tr>
 <td class="manten" rowspan="6">MANTENIBILIDAD</td>
 <td class="manten" rowspan="6">20</td>
+
 <td rowspan="2">Facilidad de Prueba</td>
 <td>Auto descripción</td>
 <td rowspan="2">5</td>
