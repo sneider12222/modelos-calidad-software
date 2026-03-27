@@ -2,2170 +2,1137 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Evaluación de Calidad - Spotify</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación de Calidad — Spotify</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
+/* ─── VARIABLES ─────────────────────────────────────────── */
+:root {
+  --green:   #1db954;
+  --green-d: #15883d;
+  --green-g: #0f5c2a;
+  --black:   #0a0a0a;
+  --dark:    #111111;
+  --card:    #161616;
+  --border:  rgba(255,255,255,0.07);
+  --muted:   #555;
+  --text:    #e8e8e8;
+  --text-2:  #999;
+  --radius:  14px;
+  --gap:     clamp(32px, 5vw, 64px);
+}
+
+/* ─── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f4f6f9;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--text);
+  line-height: 1.65;
+  overflow-x: hidden;
 }
 
-header {
-    background: #1db954;
-    color: white;
-    padding: 25px;
-    text-align: center;
+/* ─── NOISE OVERLAY ─────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.5;
 }
 
+/* ─── GLOW BLOBS ────────────────────────────────────────── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+}
+.blob-1 { width: 500px; height: 500px; background: var(--green); top: -100px; left: -100px; }
+.blob-2 { width: 400px; height: 400px; background: #00ffaa; bottom: 200px; right: -80px; opacity: 0.07; }
+
+/* ─── NAV ───────────────────────────────────────────────── */
 nav {
-    background: #222;
-    padding: 10px;
-    text-align: center;
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  padding: 0 clamp(16px,5vw,80px);
+  display: flex; align-items: center; gap: 8px;
+  height: 60px;
+  overflow-x: auto;
 }
-
 nav a {
-    color: white;
-    margin: 10px;
-    text-decoration: none;
-    font-weight: bold;
+  color: var(--text-2);
+  text-decoration: none;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+nav a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+nav a.active { color: var(--black); background: var(--green); }
+.nav-logo {
+  margin-right: auto;
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--green);
+  white-space: nowrap;
+}
+.nav-logo svg { flex-shrink: 0; }
+
+/* ─── HERO ──────────────────────────────────────────────── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 380px;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(40px,8vw,100px) clamp(20px,6vw,80px) clamp(40px,6vw,80px);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 0% 0%, rgba(29,185,84,0.18) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 50% at 100% 100%, rgba(0,255,120,0.06) 0%, transparent 60%);
+}
+.hero-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+.hero-tag::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: var(--green);
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 7vw, 80px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.hero h1 span { color: var(--green); }
+.hero p {
+  max-width: 560px;
+  color: var(--text-2);
+  font-size: clamp(14px, 1.6vw, 17px);
+  font-weight: 300;
+}
+.hero-scores {
+  position: absolute; right: clamp(20px,6vw,80px); bottom: clamp(40px,6vw,80px);
+  display: flex; gap: 16px;
+}
+.hero-score-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 24px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+.hero-score-card .val {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--green);
+  line-height: 1;
+}
+.hero-score-card .lbl {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-top: 6px;
 }
 
-section {
-    background: white;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+/* ─── LAYOUT ────────────────────────────────────────────── */
+.container {
+  position: relative; z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--gap) clamp(20px,6vw,80px);
+  display: flex; flex-direction: column; gap: 80px;
 }
 
-h2 {
-    color: #1db954;
+/* ─── SECTION HEADER ────────────────────────────────────── */
+.sec-header {
+  display: flex; align-items: baseline; gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.sec-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgba(29,185,84,0.1);
+  border: 1px solid rgba(29,185,84,0.25);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+.sec-header h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.sec-header p {
+  color: var(--text-2);
+  font-size: 14px;
+  margin-top: 8px;
+  max-width: 650px;
+  font-weight: 300;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+/* ─── SCALE PILLS ───────────────────────────────────────── */
+.scale-strip {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.scale-pill {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+.scale-pill .dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-exc { background: #1db954; }
+.dot-bue { background: #3b9fe8; }
+.dot-reg { background: #f5c518; }
+.dot-mal { background: #e74c3c; }
+.scale-pill .num { color: var(--text-2); font-weight: 400; font-size: 12px; }
+
+/* ─── SOFTWARE INFO ─────────────────────────────────────── */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2px;
+  background: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.info-cell {
+  background: var(--card);
+  padding: 22px 26px;
+  transition: background 0.2s;
+}
+.info-cell:hover { background: #1a1a1a; }
+.info-cell .lbl {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.info-cell .val {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 400;
+}
+.info-cell a { color: var(--green); text-decoration: none; }
+.info-cell a:hover { text-decoration: underline; }
+
+/* ─── CAPACITY GRID ─────────────────────────────────────── */
+.capacity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+.capacity-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.capacity-card:hover { border-color: rgba(29,185,84,0.3); transform: translateY(-3px); }
+.capacity-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--green), transparent);
+}
+.cap-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 20px;
+}
+.cap-score {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.cap-score span { font-size: 18px; color: var(--text-2); }
+.cap-bar-wrap { margin-top: 16px; }
+.cap-bar-bg {
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.cap-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), #00ff88);
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+.factor-list { margin-top: 18px; }
+.factor-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+}
+.factor-row:last-child { border-bottom: none; }
+.factor-name { color: var(--text-2); }
+.factor-score {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+}
+.factor-mini-bar {
+  width: 60px; height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.factor-mini-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
 }
 
-table, th, td {
-    border: 1px solid #ccc;
+/* ─── FULL TABLE ────────────────────────────────────────── */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: rgba(29,185,84,0.1);
+  color: var(--green);
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(29,185,84,0.2);
+  white-space: nowrap;
+}
+tbody td {
+  padding: 11px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+  vertical-align: middle;
+}
+tbody td.left { text-align: left; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: rgba(255,255,255,0.02); color: var(--text); }
+.cap-label {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.tfoot-row td {
+  background: rgba(29,185,84,0.08);
+  color: var(--green);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  border-top: 1px solid rgba(29,185,84,0.2);
+}
+.total-row td {
+  background: var(--green);
+  color: var(--black);
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+}
+.dot-in-table {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
 }
 
-th {
-    background: #1db954;
-    color: white;
+/* ─── BADGE ─────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+.badge-exc { background: rgba(29,185,84,0.15); color: #1db954; border: 1px solid rgba(29,185,84,0.3); }
+.badge-bue { background: rgba(59,159,232,0.15); color: #3b9fe8; border: 1px solid rgba(59,159,232,0.3); }
+.badge-reg { background: rgba(245,197,24,0.15); color: #f5c518; border: 1px solid rgba(245,197,24,0.3); }
+
+/* ─── RESULTS COMPARE ───────────────────────────────────── */
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.compare-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.compare-card:hover { border-color: rgba(29,185,84,0.35); transform: translateY(-4px); }
+.compare-card.top { border-color: rgba(29,185,84,0.45); }
+.compare-card.top::after {
+  content: 'TOP';
+  position: absolute; top: 14px; right: 14px;
+  background: var(--green);
+  color: var(--black);
+  font-family: 'Syne', sans-serif;
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.compare-card .model-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-bottom: 12px;
+}
+.compare-card .score-big {
+  font-family: 'Syne', sans-serif;
+  font-size: 54px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+.compare-card.top .score-big { color: var(--green); }
+.compare-card .score-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+.compare-card .score-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--green), #00ff88);
 }
 
-th, td {
-    padding: 10px;
-    text-align: center;
+/* ─── ANALYSIS TEXT ─────────────────────────────────────── */
+.analysis {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.8;
 }
+.analysis p { margin-bottom: 14px; }
+.analysis p:last-child { margin-bottom: 0; }
+.analysis strong { color: var(--text); font-weight: 500; }
 
+/* ─── CONCLUSIONS ───────────────────────────────────────── */
+.concl-list { display: flex; flex-direction: column; gap: 12px; }
+.concl-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  display: flex; gap: 16px; align-items: flex-start;
+  transition: border-color 0.2s;
+}
+.concl-item:hover { border-color: rgba(29,185,84,0.3); }
+.concl-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--green);
+  background: rgba(29,185,84,0.1);
+  border: 1px solid rgba(29,185,84,0.2);
+  border-radius: 6px;
+  padding: 4px 8px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.concl-item p { font-size: 14px; color: var(--text-2); font-weight: 300; line-height: 1.7; }
+.concl-item strong { color: var(--text); font-weight: 500; }
+
+/* ─── REFS ──────────────────────────────────────────────── */
+.ref-list { display: flex; flex-direction: column; gap: 10px; }
+.ref-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  font-size: 13px;
+  color: var(--text-2);
+  transition: border-color 0.2s;
+}
+.ref-item:hover { border-color: rgba(29,185,84,0.3); }
+.ref-item em { font-style: italic; color: var(--text); }
+.ref-item a {
+  color: var(--green);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid rgba(29,185,84,0.3);
+  padding: 5px 12px;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+.ref-item a:hover { background: var(--green); color: var(--black); }
+
+/* ─── FOOTER ────────────────────────────────────────────── */
 footer {
-    text-align: center;
-    padding: 15px;
-    background: #222;
-    color: white;
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 28px clamp(20px,6vw,80px);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: var(--muted);
 }
-</style>
+footer span { color: var(--green); }
 
+/* ─── SECTION ───────────────────────────────────────────── */
+section { position: relative; z-index: 1; }
+
+/* ─── ANIMATE IN ────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim { animation: fadeUp 0.55s ease both; }
+.anim-d1 { animation-delay: 0.1s; }
+.anim-d2 { animation-delay: 0.2s; }
+.anim-d3 { animation-delay: 0.3s; }
+
+@media (max-width: 768px) {
+  .hero-scores { display: none; }
+  .compare-grid { grid-template-columns: 1fr; }
+}
+
+/* Modelo Boehm high-level row colors */
+.boehm-utilgen td.hl { background: rgba(180,140,100,0.08); color: #c8a96e; }
+.boehm-util td.hl   { background: rgba(80,120,160,0.08);  color: #7db0d8; }
+.boehm-mant td.hl   { background: rgba(200,180,120,0.08); color: #ccc07a; }
+</style>
 </head>
 <body>
 
-<header>
-    <h1>Evaluación de Calidad de Software</h1>
-    <p>Aplicación de Modelos McCall, Boehm y FURPS</p>
-</header>
+<!-- Glow blobs -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 
+<!-- NAV -->
 <nav>
-    <a href="#software">Software</a>
-    <a href="#mccall">McCall</a>
-    <a href="#boehm">Boehm</a>
-    <a href="#furps">FURPS</a>
-    <a href="#comparacion">Comparación</a>
-    <a href="#conclusiones">Conclusiones</a>
+  <div class="nav-logo">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="11" stroke="#1db954" stroke-width="1.5"/>
+      <path d="M7 15c2.5-1.5 7-1.5 10 0M6 12c3.5-2 9-2 12 0M8 9c2.5-1.5 6-1.5 8 0" stroke="#1db954" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    Spotify QA
+  </div>
+  <a href="#software">Software</a>
+  <a href="#mccall">McCall</a>
+  <a href="#boehm">Boehm</a>
+  <a href="#furps">FURPS</a>
+  <a href="#comparacion">Comparación</a>
+  <a href="#conclusiones">Conclusiones</a>
 </nav>
 
-<section id="software">
-    <h2>1. Software Evaluado</h2>
-
-    <style>
-        .tabla-pro {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .tabla-pro tr {
-            transition: 0.3s;
-        }
-
-        .tabla-pro tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .tabla-pro tr:hover {
-            background-color: #d4f5e1;
-            transform: scale(1.01);
-        }
-
-        .tabla-pro td {
-            padding: 15px;
-            vertical-align: top;
-        }
-
-        .tabla-pro .titulo {
-            background: #1db954;
-            color: white;
-            font-weight: bold;
-            width: 25%;
-        }
-
-        .tabla-pro a {
-            color: #1db954;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .tabla-pro a:hover {
-            text-decoration: underline;
-        }
-    </style>
-
-    <table class="tabla-pro">
-
-        <tr>
-            <td class="titulo">🎵 Nombre del Software</td>
-            <td>Spotify</td>
-        </tr>
-
-        <tr>
-            <td class="titulo">🏢 Repositorio</td>
-            <td>
-                Spotify es una empresa tecnológica fundada en 2006 en Suecia. 
-                Es el servicio de streaming más grande del mundo con más de 600 millones de usuarios.
-                <br><br>
-                <a href="https://www.spotify.com" target="_blank">Ir a Spotify</a>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="titulo">📄 Descripción</td>
-            <td>
-                Plataforma de streaming de música, podcasts y audiolibros.
-                <br><br>
-                Permite uso gratuito con anuncios o premium sin interrupciones.
-                <br><br>
-                Incluye recomendaciones personalizadas, playlists, modo offline y acceso multiplataforma.
-            </td>
-        </tr>
-
-        <tr>
-            <td class="titulo">⚖️ Licencia</td>
-            <td>
-                Uso personal, no comercial. No se permite descargar ni redistribuir contenido fuera de la plataforma.
-            </td>
-        </tr>
-
-        <tr>
-            <td class="titulo">🌍 Área de Aplicación</td>
-            <td>
-                Público general, artistas y creadores de contenido a nivel global.
-            </td>
-        </tr>
-
-        <tr>
-            <td class="titulo">🔗 Acceso</td>
-            <td>
-                <a href="https://www.spotify.com" target="_blank">www.spotify.com</a>
-            </td>
-        </tr>
-
-    </table>
-</section>
-
-<section>
-    <h2>2. Escala de Valoraciones</h2>
-
-    <style>
-        .escala {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .escala th {
-            background: #1db954;
-            color: white;
-            padding: 12px;
-        }
-
-        .escala td {
-            padding: 12px;
-            text-align: center;
-        }
-
-        .excelente { background: #2ecc71; color: white; }
-        .bueno { background: #3498db; color: white; }
-        .regular { background: #f1c40f; }
-        .malo { background: #e74c3c; color: white; }
-
-        .escala tr:hover {
-            transform: scale(1.02);
-            transition: 0.3s;
-        }
-
-        .mccall-box {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
-            color: #1db954;
-        }
-
-        .card ul {
-            padding-left: 20px;
-        }
-    </style>
-
-    <table class="escala">
-        <tr>
-            <th>Descripción</th>
-            <th>Valor</th>
-        </tr>
-        <tr class="excelente">
-            <td>Excelente</td>
-            <td>4</td>
-        </tr>
-        <tr class="bueno">
-            <td>Bueno</td>
-            <td>3</td>
-        </tr>
-        <tr class="regular">
-            <td>Regular</td>
-            <td>2</td>
-        </tr>
-        <tr class="malo">
-            <td>Malo</td>
-            <td>1</td>
-        </tr>
-    </table>
-</section>
-
-<section id="mccall">
-    <h2>3. Modelo McCall</h2>
-
-    <style>
-        .tabla-mccall {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .tabla-mccall th {
-            background: #1db954;
-            color: white;
-            padding: 12px;
-        }
-
-        .tabla-mccall td {
-            padding: 12px;
-            text-align: center;
-        }
-
-        .tabla-mccall tr:nth-child(even) {
-            background: #f2f2f2;
-        }
-
-        .tabla-mccall tr:hover {
-            background: #d4f5e1;
-            transition: 0.3s;
-            transform: scale(1.01);
-        }
-
-        .capacidad {
-            font-weight: bold;
-            background: #ecf9f1;
-        }
-    </style>
-
-    <p>
-    Presentado en 1977 y propone una serie de factores de calidad conocidos como factores de McCall, Richards, & Walters (1977), la idea del modelo es la descomposición del concepto genérico de calidad en tres capacidades importantes para un producto software, operación, transición y revisión todo desde la mirada del usuario. (LEM Evaluación de la Calidad Educativa, Capítulo II (CVUDES). Rey, A. (2015).)
-
-Para la evaluación, se asignan los siguientes puntajes a cada capacidad, según los factores evaluados en el modelo de MacCall.
-
-    </p>
-
-    <table class="tabla-mccall">
-
-        <tr>
-            <th>Capacidad</th>
-            <th>Puntaje</th>
-            <th>Factor</th>
-            <th>Puntaje</th>
-        </tr>
-
-        <!-- OPERACIÓN -->
-        <tr class="capacidad">
-            <td rowspan="4">Operación</td>
-            <td rowspan="4">40</td>
-            <td>Corrección</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Confiabilidad</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Usabilidad</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Integridad / Seguridad</td>
-            <td>10</td>
-        </tr>
-
-        <!-- TRANSICIÓN -->
-        <tr class="capacidad">
-            <td rowspan="3">Transición</td>
-            <td rowspan="3">30</td>
-            <td>Portabilidad</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Reusabilidad</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Interoperabilidad</td>
-            <td>10</td>
-        </tr>
-
-        <!-- REVISIÓN -->
-        <tr class="capacidad">
-            <td rowspan="3">Revisión</td>
-            <td rowspan="3">30</td>
-            <td>Facilidad de Mantenimiento</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Flexibilidad</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Facilidad de Prueba</td>
-            <td>10</td>
-        </tr>
-
-        <!-- TOTAL -->
-        <tr style="font-weight:bold; background:#1db954; color:white;">
-            <td colspan="2">Puntaje Total</td>
-            <td colspan="2">100</td>
-        </tr>
-
-    </table>
-
-    <h3>Relación entre Factores de Calidad y Métricas</h3>
-
-<style>
-.tabla-relacion {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-relacion th, .tabla-relacion td {
-    border: 1px solid #333;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-relacion th {
-    background: #1db954;
-    color: white;
-}
-
-.left { text-align: left; }
-</style>
-
-<table class="tabla-relacion">
-
-<tr>
-<th rowspan="2">Descripción</th>
-<th colspan="4">Operación</th>
-<th colspan="3">Transición</th>
-<th colspan="3">Revisión</th>
-</tr>
-
-<tr>
-<th>Corrección</th>
-<th>Confiabilidad</th>
-<th>Usabilidad</th>
-<th>Seguridad</th>
-<th>Portabilidad</th>
-<th>Reusabilidad</th>
-<th>Interoperabilidad</th>
-<th>Mantenimiento</th>
-<th>Flexibilidad</th>
-<th>Prueba</th>
-</tr>
-
-<tr>
-<td class="left">Grado en que se pudieron implementar las funciones requeridas</td>
-<td></td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td class="left">Complejidad del sistema</td>
-<td></td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td>●</td><td>●</td>
-</tr>
-
-<tr>
-<td class="left">Efectividad del recurso</td>
-<td></td><td></td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td class="left">Diseño uniforme del programa empleando técnicas de documentación</td>
-<td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td class="left">Rendimiento en tiempo de ejecución</td>
-<td></td><td>●</td><td>●</td><td>●</td><td>●</td><td></td><td></td><td>●</td><td>●</td><td>●</td>
-</tr>
-
-<tr>
-<td class="left">Manejo de tipos de datos y estructuras uniformes a lo largo del programa</td>
-<td>●</td><td></td><td></td><td></td><td></td><td>●</td><td>●</td><td></td><td>●</td><td></td>
-</tr>
-
-<tr>
-<td class="left">Precisión obtenida en los cálculos</td>
-<td></td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td class="left">Grado de independencia del software en relación al sistema operativo</td>
-<td></td><td></td><td>●</td><td>●</td><td>●</td><td></td><td></td><td>●</td><td>●</td><td>●</td>
-</tr>
-
-<tr>
-<td class="left">Independencia funcional de los componentes</td>
-<td>●</td><td>●</td><td>●</td><td></td><td></td><td>●</td><td>●</td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td class="left">Facilidad de operación</td>
-<td>●</td><td></td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td class="left">Disponibilidad de elementos de protección del recurso y la información</td>
-<td></td><td>●</td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td class="left">Grado de dificultad para entender el recurso</td>
-<td></td><td>●</td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-</table>
-    <h3>Cuestionario de Evaluación</h3>
-
-<style>
-    .tabla-cuestionario {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-        font-size: 14px;
-    }
-
-    .tabla-cuestionario th {
-        background: #1db954;
-        color: white;
-        padding: 10px;
-    }
-
-    .tabla-cuestionario td {
-        padding: 10px;
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .tabla-cuestionario tr:nth-child(even) {
-        background: #f2f2f2;
-    }
-
-    .tabla-cuestionario tr:hover {
-        background: #d4f5e1;
-        transition: 0.2s;
-    }
-
-    .left {
-        text-align: left;
-    }
-
-    .puntaje {
-        font-weight: bold;
-        color: white;
-        border-radius: 5px;
-        padding: 5px;
-    }
-
-    .excelente { background: #2ecc71; }
-    .bueno { background: #3498db; }
-    .regular { background: #f1c40f; color: black; }
-    .malo { background: #e74c3c; }
-</style>
-
-<table class="tabla-cuestionario">
-
-<tr>
-    <th>Métrica</th>
-    <th>Descripción</th>
-    <th>Pregunta</th>
-    <th>Puntaje Esperado</th>
-    <th>Puntaje Obtenido</th>
-</tr>
-
-<tr>
-<td>Compleción</td>
-<td class="left">Implementación de funciones</td>
-<td class="left">¿Permite reproducir y gestionar música?</td>
-<td class="puntaje excelente">Excelente</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Complejidad</td>
-<td class="left">Complejidad del sistema</td>
-<td class="left">¿La navegación es intuitiva?</td>
-<td class="puntaje excelente">Excelente</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Concisión</td>
-<td class="left">Efectividad del recurso</td>
-<td class="left">¿Cumple su objetivo?</td>
-<td class="puntaje excelente">Excelente</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Consistencia</td>
-<td class="left">Diseño uniforme</td>
-<td class="left">¿Funciona en distintos dispositivos?</td>
-<td class="puntaje bueno">Bueno</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Eficiencia</td>
-<td class="left">Rendimiento</td>
-<td class="left">¿Carga rápido y sin fallos?</td>
-<td class="puntaje bueno">Bueno</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Estandarización</td>
-<td class="left">Gestión de datos</td>
-<td class="left">¿Gestiona datos correctamente?</td>
-<td class="puntaje bueno">Bueno</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Exactitud</td>
-<td class="left">Precisión</td>
-<td class="left">¿Reproduce correctamente?</td>
-<td class="puntaje excelente">Excelente</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Independencia</td>
-<td class="left">Compatibilidad</td>
-<td class="left">¿Funciona en varios sistemas?</td>
-<td class="puntaje bueno">Bueno</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Modularidad</td>
-<td class="left">Organización</td>
-<td class="left">¿Organiza playlists correctamente?</td>
-<td class="puntaje bueno">Bueno</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Operatividad</td>
-<td class="left">Facilidad de uso</td>
-<td class="left">¿Es fácil de usar?</td>
-<td class="puntaje excelente">Excelente</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-<tr>
-<td>Seguridad</td>
-<td class="left">Protección de datos</td>
-<td class="left">¿Protege datos del usuario?</td>
-<td class="puntaje excelente">Excelente</td>
-<td class="puntaje bueno">Bueno</td>
-</tr>
-
-<tr>
-<td>Simplicidad</td>
-<td class="left">Comprensión</td>
-<td class="left">¿Interfaz clara?</td>
-<td class="puntaje bueno">Bueno</td>
-<td class="puntaje excelente">Excelente</td>
-</tr>
-
-</table>
-    <h3>Consolidación de Puntajes</h3>
-
-<style>
-.tabla-metricas {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-metricas th, .tabla-metricas td {
-    border: 1px solid #333;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-metricas th {
-    background: #1db954;
-    color: white;
-}
-
-.left { text-align: left; }
-
-.resumen {
-    background: #eef7f1;
-    font-weight: bold;
-}
-</style>
-
-<table class="tabla-metricas">
-
-<tr>
-<th rowspan="2">Métrica</th>
-<th rowspan="2">Descripción</th>
-<th colspan="4">Operación</th>
-<th colspan="3">Transición</th>
-<th colspan="3">Revisión</th>
-</tr>
-
-<tr>
-<th>Corrección</th>
-<th>Confiabilidad</th>
-<th>Usabilidad</th>
-<th>Seguridad</th>
-<th>Portabilidad</th>
-<th>Reusabilidad</th>
-<th>Interoperabilidad</th>
-<th>Mantenimiento</th>
-<th>Flexibilidad</th>
-<th>Pruebas</th>
-</tr>
-
-<tr>
-<td>Compleción</td>
-<td class="left">Implementación de funciones</td>
-<td>4</td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Complejidad</td>
-<td class="left">Complejidad del sistema</td>
-<td></td><td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td>4</td><td>4</td>
-</tr>
-
-<tr>
-<td>Concisión</td>
-<td class="left">Efectividad</td>
-<td></td><td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Consistencia</td>
-<td class="left">Diseño uniforme</td>
-<td>4</td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Eficiencia</td>
-<td class="left">Rendimiento</td>
-<td></td><td>4</td><td>4</td><td>4</td><td></td><td></td><td></td><td>4</td><td>4</td><td>4</td>
-</tr>
-
-<tr>
-<td>Estandarización</td>
-<td class="left">Gestión de datos</td>
-<td>4</td><td></td><td></td><td></td><td></td><td>4</td><td>4</td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Exactitud</td>
-<td class="left">Precisión</td>
-<td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Independencia</td>
-<td class="left">Compatibilidad</td>
-<td></td><td></td><td></td><td></td><td>4</td><td></td><td>4</td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Modularidad</td>
-<td class="left">Organización</td>
-<td>4</td><td>4</td><td>4</td><td></td><td></td><td>3</td><td>3</td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Operatividad</td>
-<td class="left">Facilidad de uso</td>
-<td>4</td><td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Seguridad</td>
-<td class="left">Protección de datos</td>
-<td></td><td>3</td><td>3</td><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<tr>
-<td>Simplicidad</td>
-<td class="left">Comprensión</td>
-<td></td><td>4</td><td>4</td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-
-<!-- PROMEDIO -->
-<tr class="resumen">
-<td colspan="2">Promedio por Factor</td>
-<td>4.0</td><td>3.8</td><td>4.0</td><td>3.3</td><td>4.0</td><td>3.5</td><td>3.8</td><td>4.0</td><td>4.0</td><td>4.0</td>
-</tr>
-
-<tr class="resumen">
-<td colspan="2">Escala por Factor</td>
-<td>10</td><td>9.5</td><td>10</td><td>8.2</td><td>10</td><td>8.7</td><td>9.5</td><td>10</td><td>10</td><td>10</td>
-</tr>
-
-<tr class="resumen">
-<td colspan="2">Promedio por Capacidad</td>
-<td colspan="4">9.4</td>
-<td colspan="3">9.4</td>
-<td colspan="3">10</td>
-</tr>
-
-</table>
-    <h3>Resultados de la Evaluación</h3>
-
-<style>
-    .tabla-resultados {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-        font-size: 14px;
-    }
-
-    .tabla-resultados th, 
-    .tabla-resultados td {
-        border: 1px solid #999;
-        padding: 8px;
-        text-align: center;
-    }
-
-    .tabla-resultados th {
-        background: #1db954;
-        color: white;
-    }
-
-    .tabla-resultados tr:nth-child(even) {
-        background: #f9f9f9;
-    }
-
-    .tabla-resultados tr:hover {
-        background: #e8f8f0;
-    }
-
-    .left {
-        text-align: left;
-    }
-
-    .capacidad {
-        font-weight: bold;
-        background: #eafaf1;
-    }
-
-    /* 🔥 FILA FINAL CORREGIDA */
-    .total td {
-        background: #1db954;
-        color: white;
-        font-weight: bold;
-        font-size: 16px;
-    }
-</style>
-
-<table class="tabla-resultados">
-
-<tr>
-    <th>Capacidad</th>
-    <th>Puntaje Global</th>
-    <th>Factor</th>
-    <th>Puntaje Factor</th>
-    <th>Puntaje Obtenido</th>
-    <th>Puntaje Capacidad</th>
-</tr>
-
-<!-- OPERACIÓN -->
-<tr class="capacidad">
-    <td rowspan="4">Operación</td>
-    <td rowspan="4">40</td>
-    <td>Corrección</td>
-    <td>10</td>
-    <td>10</td>
-    <td rowspan="4">37.6</td>
-</tr>
-<tr>
-    <td>Confiabilidad</td>
-    <td>10</td>
-    <td>9.5</td>
-</tr>
-<tr>
-    <td>Usabilidad</td>
-    <td>10</td>
-    <td>10</td>
-</tr>
-<tr>
-    <td>Seguridad</td>
-    <td>10</td>
-    <td>8.2</td>
-</tr>
-
-<!-- TRANSICIÓN -->
-<tr class="capacidad">
-    <td rowspan="3">Transición</td>
-    <td rowspan="3">30</td>
-    <td>Portabilidad</td>
-    <td>10</td>
-    <td>10</td>
-    <td rowspan="3">28.2</td>
-</tr>
-<tr>
-    <td>Reusabilidad</td>
-    <td>10</td>
-    <td>8.7</td>
-</tr>
-<tr>
-    <td>Interoperabilidad</td>
-    <td>10</td>
-    <td>9.5</td>
-</tr>
-
-<!-- REVISIÓN -->
-<tr class="capacidad">
-    <td rowspan="3">Revisión</td>
-    <td rowspan="3">30</td>
-    <td>Mantenimiento</td>
-    <td>10</td>
-    <td>10</td>
-    <td rowspan="3">30</td>
-</tr>
-<tr>
-    <td>Flexibilidad</td>
-    <td>10</td>
-    <td>10</td>
-</tr>
-<tr>
-    <td>Pruebas</td>
-    <td>10</td>
-    <td>10</td>
-</tr>
-
-<!-- TOTAL -->
-<tr class="total">
-    <td>Puntaje Total</td>
-    <td>100</td>
-    <td>-</td>
-    <td>100</td>
-    <td>95.9</td>
-    <td>95.8</td>
-</tr>
-
-</table>
-</section>
-
-<section id="boehm">
-    <h2>4. Modelo Boehm</h2>
-    <p>Presentado por Barry Boehm en 1978, introduce características de alto nivel, características de nivel intermedio y características primitivas, cada una de las cuales contribuye al nivel general de calidad.
-Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cuenta los niveles de cada característica
-</p>
-   <h3>Modelo Boehm</h3>
-
-<style>
-.tabla-boehm {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-boehm th, .tabla-boehm td {
-    border: 1px solid black;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-boehm th {
-    background: #f4c542;
-}
-
-.alto { background: #d9c3ad; font-weight: bold; }
-.utilidad { background: #b7c3cf; }
-.manten { background: #e6d8b5; }
-
-.vertical {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    background: #0b2c5f;
-    color: yellow;
-    font-weight: bold;
-}
-</style>
-
-<table class="tabla-boehm">
-
-<tr>
-<th></th>
-<th>CARACTERÍSTICAS DE ALTO NIVEL</th>
-<th>PUNTAJE</th>
-<th>CARACTERÍSTICAS DE NIVEL INTERMEDIO</th>
-<th>CARACTERÍSTICAS PRIMITIVAS</th>
-<th>PUNTAJE</th>
-</tr>
-
-<!-- UTILIDAD GENERAL -->
-<tr>
-<td class="vertical" rowspan="18">UTILIDAD GENERAL</td>
-
-<td class="alto" rowspan="2">PORTABILIDAD</td>
-<td class="alto" rowspan="2">10</td>
-<td rowspan="2"></td>
-<td>Independencia de Dispositivos</td>
-<td>5</td>
-</tr>
-
-<tr>
-<td>Auto-contención</td>
-<td>5</td>
-</tr>
-
-<!-- UTILIDAD -->
-<tr>
-<td class="utilidad" rowspan="10">UTILIDAD</td>
-<td class="utilidad" rowspan="10">70</td>
-
-<td rowspan="4">Fiabilidad</td>
-<td>Precisión</td>
-<td rowspan="4">40</td>
-</tr>
-
-<tr><td>Completitud</td></tr>
-<tr><td>Robustez</td></tr>
-<tr><td>Consistencia</td></tr>
-
-<tr>
-<td rowspan="3">Eficiencia</td>
-<td>Responsabilidad</td>
-<td rowspan="3">15</td>
-</tr>
-
-<tr><td>Eficiencia de dispositivos</td></tr>
-<tr><td>Accesibilidad</td></tr>
-
-<tr>
-<td rowspan="3">Interactividad</td>
-<td>Robustez</td>
-<td rowspan="3">15</td>
-</tr>
-    
-<tr><td>accesibilidad</td></tr>
-<tr><td>Capacidad de comunicación</td></tr>
-
-<!-- MANTENIBILIDAD -->
-<tr>
-<td class="manten" rowspan="6">MANTENIBILIDAD</td>
-<td class="manten" rowspan="6">20</td>
-
-<td rowspan="2">Facilidad de Prueba</td>
-<td>Auto descripción</td>
-<td rowspan="2">5</td>
-</tr>
-
-<tr><td>Estructuración</td></tr>
-
-<tr>
-<td rowspan="2">Facilidad de Entendimiento</td>
-<td>Concisión</td>
-<td rowspan="2">10</td>
-</tr>
-
-<tr><td>Legibilidad</td></tr>
-
-<tr>
-<td rowspan="2">Modificabilidad</td>
-<td>Estructuración</td>
-<td rowspan="2">5</td>
-</tr>
-
-<tr><td>Escalabilidad</td></tr>
-
-<!-- TOTAL -->
-<tr>
-<td colspan="2"><b>Puntaje Total</b></td>
-<td><b>100</b></td>
-<td></td>
-<td></td>
-<td><b>100</b></td>
-</tr>
-
-</table>
-    <h3>Descripción de las características primitivas y cuestionario</h3>
-
-<style>
-.tabla-cuestionario-boehm {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-cuestionario-boehm th, 
-.tabla-cuestionario-boehm td {
-    border: 1px solid #333;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-cuestionario-boehm th {
-    background: #1db954;
-    color: white;
-}
-
-.left {
-    text-align: left;
-}
-
-.nivel {
-    background: #eef7f1;
-    font-weight: bold;
-}
-
-.puntaje-exc { background: #2ecc71; color: white; }
-.puntaje-bue { background: #3498db; color: white; }
-.puntaje-reg { background: #f1c40f; color: black; }
-</style>
-
-<table class="tabla-cuestionario-boehm">
-
-<tr>
-<th>Alto Nivel</th>
-<th>Nivel Intermedio</th>
-<th>Primitivas</th>
-<th>Pregunta</th>
-<th>Puntaje Esperado</th>
-<th>Puntaje Obtenido</th>
-</tr>
-
-<!-- UTILIDAD GENERAL -->
-<tr class="nivel">
-<td rowspan="2">UTILIDAD GENERAL</td>
-<td rowspan="2">Portabilidad</td>
-<td>Independencia de Dispositivos</td>
-<td class="left">¿Funciona en móvil, PC y web?</td>
-<td class="puntaje-exc">Excelente</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td>Auto-contención</td>
-<td class="left">¿Funciona sin internet?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-reg">Regular</td>
-</tr>
-
-<!-- UTILIDAD -->
-<tr class="nivel">
-<td rowspan="10">UTILIDAD</td>
-<td rowspan="4">Fiabilidad</td>
-<td>Precisión</td>
-<td class="left">¿Reproduce correctamente música?</td>
-<td class="puntaje-exc">Excelente</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td>Completitud</td>
-<td class="left">¿Tiene suficiente contenido?</td>
-<td class="puntaje-exc">Excelente</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td>Robustez</td>
-<td class="left">¿Evita fallos?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-bue">Bueno</td>
-</tr>
-
-<tr>
-<td>Consistencia</td>
-<td class="left">¿Mantiene diseño uniforme?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td rowspan="3">Eficiencia</td>
-<td>Responsabilidad</td>
-<td class="left">¿Responde rápido?</td>
-<td class="puntaje-exc">Excelente</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td>Eficiencia de dispositivos</td>
-<td class="left">¿Funciona en diferentes equipos?</td>
-<td class="puntaje-exc">Excelente</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td>Accesibilidad</td>
-<td class="left">¿Fácil acceso?</td>
-<td class="puntaje-exc">Excelente</td>
-<td class="puntaje-bue">Bueno</td>
-</tr>
-
-<tr>
-<td rowspan="3">Interactividad</td>
-<td>Robustez</td>
-<td class="left">¿Interacción estable?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td>Accesibilidad</td>
-<td class="left">¿Acceso para usuarios con limitaciones?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-reg">Regular</td>
-</tr>
-
-<tr>
-<td>Capacidad de comunicación</td>
-<td class="left">¿Interactúa con el usuario?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<!-- MANTENIBILIDAD -->
-<tr class="nivel">
-<td rowspan="6">MANTENIBILIDAD</td>
-<td rowspan="2">Facilidad de Prueba</td>
-<td>Auto descripción</td>
-<td class="left">¿Tiene ayuda o soporte?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-bue">Bueno</td>
-</tr>
-
-<tr>
-<td>Estructuración</td>
-<td class="left">¿Organiza funciones claramente?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td rowspan="2">Facilidad de Entendimiento</td>
-<td>Concisión</td>
-<td class="left">¿Es fácil de entender?</td>
-<td class="puntaje-exc">Excelente</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td>Legibilidad</td>
-<td class="left">¿Textos claros?</td>
-<td class="puntaje-exc">Excelente</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-
-<tr>
-<td rowspan="2">Modificabilidad</td>
-<td>Estructuración</td>
-<td class="left">¿Permite cambios sin afectar?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-bue">Bueno</td>
-</tr>
-
-<tr>
-<td>Escalabilidad</td>
-<td class="left">¿Se adapta al crecimiento?</td>
-<td class="puntaje-bue">Bueno</td>
-<td class="puntaje-exc">Excelente</td>
-</tr>
-    
-
-   
-<style>
-.tabla-final {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-final th, .tabla-final td {
-    border: 1px solid #333;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-final th {
-    background: #1db954;
-    color: white;
-}
-
-.left { text-align: left; }
-
-.nivel {
-    background: #eef7f1;
-    font-weight: bold;
-}
-</style>
-
-<table class="tabla-final">
-   <h3>resultados de la evaluacion</h3>  
-<tr>
-<th>Alto Nivel</th>
-<th>Nivel Intermedio</th>
-<th>Primitivas</th>
-<th>Puntaje Obtenido</th>
-<th>Puntaje Escala</th>
-<th>Puntaje Nivel</th>
-<th>Total</th>
-</tr>
-
-<!-- UTILIDAD GENERAL -->
-<tr class="nivel">
-<td rowspan="2">UTILIDAD GENERAL</td>
-<td rowspan="2">Portabilidad</td>
-<td>Independencia de Dispositivos</td>
-<td>4</td>
-<td>4</td>
-<td rowspan="2">7.5</td>
-<td rowspan="2">7.5</td>
-
-</tr>
-
-<tr>
-<td>Auto-contención</td>
-<td>2</td>
-<td>2</td>
-</tr>
-
-<!-- UTILIDAD -->
-<tr class="nivel">
-<td rowspan="10">UTILIDAD</td>
-<td rowspan="4">Fiabilidad</td>
-<td>Precisión</td>
-<td>4</td>
-<td>4</td>
-<td rowspan="4">37.5</td>
-<td rowspan="10">63.7</td>
-</tr>
-
-<tr><td>Completitud</td><td>4</td><td>4</td></tr>
-<tr><td>Robustez</td><td>3</td><td>3</td></tr>
-<tr><td>Consistencia</td><td>4</td><td>4</td></tr>
-
-<tr>
-<td rowspan="3">Eficiencia</td>
-<td>Responsabilidad</td>
-<td>4</td>
-<td>4</td>
-<td rowspan="3">13.7</td>
-</tr>
-
-<tr><td>Eficiencia de dispositivos</td><td>4</td><td>4</td></tr>
-<tr><td>Accesibilidad</td><td>3</td><td>3</td></tr>
-
-<tr>
-<td rowspan="3">Interactividad</td>
-<td>Robustez</td>
-<td>4</td>
-<td>4</td>
-<td rowspan="3">12.5</td>
-</tr>
-
-<tr><td>Accesibilidad</td><td>2</td><td>2</td></tr>
-<tr><td>Capacidad de comunicación</td><td>4</td><td>4</td></tr>
-
-<!-- MANTENIBILIDAD -->
-<tr class="nivel">
-<td rowspan="6">MANTENIBILIDAD</td>
-<td rowspan="2">Facilidad de Prueba</td>
-<td>Auto descripción</td>
-<td>3</td>
-<td>3</td>
-<td rowspan="2">4.4</td>
-<td rowspan="6">18.8</td>
-</tr>
-
-<tr><td>Estructuración</td><td>4</td><td>4</td></tr>
-
-<tr>
-<td rowspan="2">Facilidad de Entendimiento</td>
-<td>Concisión</td>
-<td>4</td>
-<td>4</td>
-<td rowspan="2">10</td>
-</tr>
-
-<tr><td>Legibilidad</td><td>4</td><td>4</td></tr>
-
-<tr>
-<td rowspan="2">Modificabilidad</td>
-<td>Estructuración</td>
-<td>3</td>
-<td>3</td>
-<td rowspan="2">4.4</td>
-</tr>
-
-<tr><td>Escalabilidad</td><td>4</td><td>4</td></tr>
-
-</table>    
-
-</table>
-   <h3>Puntuación Obtenida</h3>
-
-<style>
-.tabla-final {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-final th, .tabla-final td {
-    border: 1px solid #333;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-final th {
-    background: #1db954;
-    color: white;
-}
-
-.left { text-align: left; }
-
-.nivel {
-    background: #eef7f1;
-    font-weight: bold;
-}
-</style>
-
-<table class="tabla-final">
-
-<tr>
-<th>Alto Nivel</th>
-<th>Nivel Intermedio</th>
-<th>Primitivas</th>
-<th>Puntaje Obtenido</th>
-<th>Puntaje Escala</th>
-<th>Puntaje Nivel</th>
-<th>Total</th>
-<th>Total Evaluación</th>
-</tr>
-
-<!-- UTILIDAD GENERAL -->
-<tr class="nivel">
-<td rowspan="2">UTILIDAD GENERAL</td>
-<td rowspan="2">Portabilidad</td>
-<td>Independencia de Dispositivos</td>
-<td>4</td>
-<td>5</td>
-<td rowspan="2">7.5</td>
-<td rowspan="2">7.5</td>
-<td rowspan="18">90</td>
-</tr>
-
-<tr>
-<td>Auto-contención</td>
-<td>2</td>
-<td>2.5</td>
-</tr>
-
-<!-- UTILIDAD -->
-<tr class="nivel">
-<td rowspan="10">UTILIDAD</td>
-<td rowspan="4">Fiabilidad</td>
-<td>Precisión</td>
-<td>4</td>
-<td>10</td>
-<td rowspan="4">37.5</td>
-<td rowspan="10">63.75</td>
-</tr>
-
-<tr><td>Completitud</td><td>4</td><td>10</td></tr>
-<tr><td>Robustez</td><td>3</td><td>7.5</td></tr>
-<tr><td>Consistencia</td><td>4</td><td>10</td></tr>
-
-<tr>
-<td rowspan="3">Eficiencia</td>
-<td>Responsabilidad</td>
-<td>4</td>
-<td>5</td>
-<td rowspan="3">1.75</td>
-</tr>
-
-<tr><td>Eficiencia de dispositivos</td><td>4</td><td>5</td></tr>
-<tr><td>Accesibilidad</td><td>3</td><td>3.75</td></tr>
-
-<tr>
-<td rowspan="3">Interactividad</td>
-<td>Robustez</td>
-<td>4</td>
-<td>5</td>
-<td rowspan="3">12.5</td>
-</tr>
-
-<tr><td>Accesibilidad</td><td>2</td><td>2.5</td></tr>
-<tr><td>Capacidad de comunicación</td><td>4</td><td>5</td></tr>
-
-<!-- MANTENIBILIDAD -->
-<tr class="nivel">
-<td rowspan="6">MANTENIBILIDAD</td>
-<td rowspan="2">Facilidad de Prueba</td>
-<td>Auto descripción</td>
-<td>3</td>
-<td>1.87</td>
-<td rowspan="2">4.375</td>
-<td rowspan="6">18.75</td>
-</tr>
-
-<tr><td>Estructuración</td><td>4</td><td>2.5</td></tr>
-
-<tr>
-<td rowspan="2">Facilidad de Entendimiento</td>
-<td>Concisión</td>
-<td>4</td>
-<td>5</td>
-<td rowspan="2">10</td>
-</tr>
-
-<tr><td>Legibilidad</td><td>4</td><td>5</td></tr>
-
-<tr>
-<td rowspan="2">Modificabilidad</td>
-<td>Estructuración</td>
-<td>3</td>
-<td>1.875</td>
-<td rowspan="2">4.375</td>
-</tr>
-
-<tr><td>Escalabilidad</td><td>4</td><td>2.5</td></tr>
-
-</table>
-</section>
-
-<section id="furps">
-    <h2>5. Modelo FURPS</h2>
-    <p>
-Robert Grady y Hewlett Packard (HP) en 1987, desarrollaron el modelo de calidad FURPS, el cual se emplea diferentes factores de calidad de software, identificando 5 características de los cuales se deriva su nombre Functionality, Usability , Reliability, Performance, Supportability (Funcionalidad, Facilidad de Uso, Fiabilidad, Rendimiento, Soporte).
-</p>
-    <style>
-.tabla-furps {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-furps th, .tabla-furps td {
-    border: 1px solid #333;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-furps th {
-    background: #1db954;
-    color: white;
-}
-
-.left { text-align: left; }
-
-.nivel {
-    background: #eef7f1;
-    font-weight: bold;
-}
-</style>
-
-<table class="tabla-furps">
-
-<tr>
-<th>Sigla</th>
-<th>Característica</th>
-<th>Tipo</th>
-<th>Puntaje</th>
-<th>Factor</th>
-<th>Puntaje</th>
-</tr>
-
-<!-- FUNCTIONALITY -->
-<tr class="nivel">
-<td rowspan="3">F</td>
-<td rowspan="3">Functionality</td>
-<td rowspan="3">FUNCIONALIDAD</td>
-<td rowspan="3">30</td>
-<td class="left">Características y capacidades del programa</td>
-<td>10</td>
-</tr>
-
-<tr>
-<td class="left">Generalidad de las funciones</td>
-<td>10</td>
-</tr>
-
-<tr>
-<td class="left">Seguridad del sistema</td>
-<td>10</td>
-</tr>
-
-<!-- USABILITY -->
-<tr class="nivel">
-<td rowspan="4">U</td>
-<td rowspan="4">Usability</td>
-<td rowspan="4">FACILIDAD DE USO</td>
-<td rowspan="4">20</td>
-<td class="left">Capacidad de prueba</td>
-<td>5</td>
-</tr>
-
-<tr><td class="left">Capacidad de configuración</td><td>5</td></tr>
-<tr><td class="left">Compatibilidad</td><td>5</td></tr>
-<tr><td class="left">Requisitos de instalación</td><td>5</td></tr>
-
-<!-- RELIABILITY -->
-<tr class="nivel">
-<td rowspan="3">R</td>
-<td rowspan="3">Reliability</td>
-<td rowspan="3">CONFIABILIDAD</td>
-<td rowspan="3">15</td>
-<td class="left">Frecuencia y severidad de fallos</td>
-<td>5</td>
-</tr>
-
-<tr><td class="left">Exactitud de las salidas</td><td>5</td></tr>
-<tr><td class="left">Capacidad de predicción</td><td>5</td></tr>
-
-<!-- PERFORMANCE -->
-<tr class="nivel">
-<td rowspan="4">P</td>
-<td rowspan="4">Performance</td>
-<td rowspan="4">RENDIMIENTO</td>
-<td rowspan="4">20</td>
-<td class="left">Factores humanos</td>
-<td>5</td>
-</tr>
-
-<tr><td class="left">Factores estéticos</td><td>5</td></tr>
-<tr><td class="left">Consistencia de la interfaz</td><td>5</td></tr>
-<tr><td class="left">Documentación</td><td>5</td></tr>
-
-<!-- SUPPORTABILITY -->
-<tr class="nivel">
-<td rowspan="5">S</td>
-<td rowspan="5">Supportability</td>
-<td rowspan="5">SOPORTE</td>
-<td rowspan="5">15</td>
-<td class="left">Velocidad de procesamiento</td>
-<td>3</td>
-</tr>
-
-<tr><td class="left">Tiempo de respuesta</td><td>3</td></tr>
-<tr><td class="left">Consumo de recursos</td><td>3</td></tr>
-<tr><td class="left">Rendimiento efectivo total</td><td>3</td></tr>
-<tr><td class="left">Eficacia</td><td>3</td></tr>
-
-<!-- TOTAL -->
-<tr class="nivel">
-<td colspan="3">PUNTAJE TOTAL</td>
-<td>100</td>
-<td></td>
-<td>100</td>
-</tr>
-
-</table>
-
-    <style>
-.tabla-final {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-final th, .tabla-final td {
-    border: 1px solid #333;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-final th {
-    background: #1db954;
-    color: white;
-}
-
-.left { text-align: left; }
-
-.nivel {
-    background: #eef7f1;
-    font-weight: bold;
-}
-</style>
-
-<table class="tabla-final">
-    <h3>Aplicación de la evaluación al RED</h3>
-<tr>
-<th>Característica</th>
-<th>Factor</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-</tr>
-
-<!-- FUNCIONALIDAD -->
-<tr class="nivel">
-<td rowspan="3">F - FUNCIONALIDAD</td>
-<td class="left">Características y capacidades del programa</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Generalidad de las funciones</td>
-<td></td><td></td><td>•</td><td></td>
-</tr>
-
-<tr>
-<td class="left">Seguridad del sistema</td>
-<td></td><td></td><td>•</td><td></td>
-</tr>
-
-<!-- FACILIDAD DE USO -->
-<tr class="nivel">
-<td rowspan="4">U - FACILIDAD DE USO</td>
-<td class="left">Capacidad de prueba</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Capacidad de configuración</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Compatibilidad</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Requisitos de instalación</td>
-<td></td><td></td><td>•</td><td></td>
-</tr>
-
-<!-- CONFIABILIDAD -->
-<tr class="nivel">
-<td rowspan="3">R - CONFIABILIDAD</td>
-<td class="left">Frecuencia y severidad de fallos</td>
-<td></td><td></td><td>•</td><td></td>
-</tr>
-
-<tr>
-<td class="left">Exactitud de las salidas</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Capacidad de predicción</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<!-- RENDIMIENTO -->
-<tr class="nivel">
-<td rowspan="4">P - RENDIMIENTO</td>
-<td class="left">Factores humanos</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Factores estéticos</td>
-<td></td><td></td><td>•</td><td></td>
-</tr>
-
-<tr>
-<td class="left">Consistencia de la interfaz</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Documentación</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<!-- SOPORTE -->
-<tr class="nivel">
-<td rowspan="5">S - SOPORTE</td>
-<td class="left">Velocidad de procesamiento</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Tiempo de respuesta</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Consumo de recursos</td>
-<td></td><td></td><td>•</td><td></td>
-</tr>
-
-<tr>
-<td class="left">Rendimiento efectivo total</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-<tr>
-<td class="left">Eficacia</td>
-<td></td><td></td><td></td><td>•</td>
-</tr>
-
-    <style>
-.tabla-final {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.tabla-final th, .tabla-final td {
-    border: 1px solid #333;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.tabla-final th {
-    background: #1db954;
-    color: white;
-}
-
-.left { text-align: left; }
-
-.nivel {
-    background: #eef7f1;
-    font-weight: bold;
-}
-</style>
-
-
-
-<table class="tabla-final">
-<h3>Equivalencia de Puntajes</h3>
-<tr>
-<th>Características</th>
-<th>Factor</th>
-<th>Puntaje</th>
-<th>Pnt. E</th>
-<th>Puntaje Nivel</th>
-<th>Total</th>
-</tr>
-
-<!-- FUNCIONALIDAD -->
-<tr class="nivel">
-<td rowspan="3">F - FUNCIONALIDAD</td>
-<td class="left">Características y capacidades del programa</td>
-<td>4</td>
-<td>10</td>
-<td rowspan="3">25</td>
-<td rowspan="19">90,7</td>
-</tr>
-
-<tr>
-<td class="left">Generalidad de las funciones</td>
-<td>3</td>
-<td>7,5</td>
-</tr>
-
-<tr>
-<td class="left">Seguridad del sistema</td>
-<td>3</td>
-<td>7,5</td>
-</tr>
-
-<!-- FACILIDAD DE USO -->
-<tr class="nivel">
-<td rowspan="4">U - FACILIDAD DE USO</td>
-<td class="left">Capacidad de prueba</td>
-<td>4</td>
-<td>5</td>
-<td rowspan="4">18,8</td>
-</tr>
-
-<tr>
-<td class="left">Capacidad de configuración</td>
-<td>4</td>
-<td>5</td>
-</tr>
-
-<tr>
-<td class="left">Compatibilidad</td>
-<td>4</td>
-<td>5</td>
-</tr>
-
-<tr>
-<td class="left">Requisitos de instalación</td>
-<td>3</td>
-<td>3,8</td>
-</tr>
-
-<!-- CONFIABILIDAD -->
-<tr class="nivel">
-<td rowspan="3">R - CONFIABILIDAD</td>
-<td class="left">Frecuencia y severidad de fallos</td>
-<td>3</td>
-<td>3,8</td>
-<td rowspan="3">13,8</td>
-</tr>
-
-<tr>
-<td class="left">Exactitud de las salidas</td>
-<td>4</td>
-<td>5</td>
-</tr>
-
-<tr>
-<td class="left">Capacidad de predicción</td>
-<td>4</td>
-<td>5</td>
-</tr>
-
-<!-- RENDIMIENTO -->
-<tr class="nivel">
-<td rowspan="4">P - RENDIMIENTO</td>
-<td class="left">Factores humanos</td>
-<td>4</td>
-<td>5</td>
-<td rowspan="4">18,8</td>
-</tr>
-
-<tr>
-<td class="left">Factores estéticos</td>
-<td>3</td>
-<td>3,8</td>
-</tr>
-
-<tr>
-<td class="left">Consistencia de la interfaz</td>
-<td>4</td>
-<td>5</td>
-</tr>
-
-<tr>
-<td class="left">Documentación</td>
-<td>4</td>
-<td>5</td>
-</tr>
-
-<!-- SOPORTE -->
-<tr class="nivel">
-<td rowspan="5">S - SOPORTE</td>
-<td class="left">Velocidad de procesamiento</td>
-<td>4</td>
-<td>3</td>
-<td rowspan="5">14,3</td>
-</tr>
-
-<tr>
-<td class="left">Tiempo de respuesta</td>
-<td>4</td>
-<td>3</td>
-</tr>
-
-<tr>
-<td class="left">Consumo de recursos</td>
-<td>3</td>
-<td>2,3</td>
-</tr>
-
-<tr>
-<td class="left">Rendimiento efectivo total</td>
-<td>4</td>
-<td>3</td>
-</tr>
-
-<tr>
-<td class="left">Eficacia</td>
-<td>4</td>
-<td>3</td>
-</tr>
-
-</table>
-
-</table>
-</section>
-
-<section id="comparacion">
-    <h2>6. Comparación de Resultados</h2>
-
-    <table>
-        <tr><th>Modelo</th><th>Puntaje</th></tr>
-        <tr><td>McCall</td><td>95.8</td></tr>
-        <tr><td>Boehm</td><td>90</td></tr>
-        <tr><td>FURPS</td><td>90.7</td></tr>
-    </table>
-
-    <style>
-.contenedor-analisis {
-    background: #f8fbf9;
-    border-left: 6px solid #1db954;
-    padding: 20px;
-    border-radius: 8px;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-}
-
-.contenedor-analisis h3 {
-    color: #1db954;
-    margin-bottom: 10px;
-}
-
-.contenedor-analisis p {
-    margin-bottom: 12px;
-    text-align: justify;
-}
-
-.resaltado {
-    font-weight: bold;
-    color: #1db954;
-}
-</style>
-
-<div class="contenedor-analisis">
-
-
-
-<p>
-La comparación de resultados entre los modelos de evaluación de la calidad aplicados muestra que todos presentan puntajes altos, lo que indica un buen nivel general del sistema evaluado. El modelo de <span class="resaltado">McCall</span> obtuvo el puntaje más alto con <span class="resaltado">95.8</span>, lo que sugiere que, bajo este enfoque, el sistema cumple de manera sobresaliente con los criterios de calidad, especialmente en aspectos relacionados con la operación, revisión y transición del software.
-</p>
-
-<p>
-Por su parte, los modelos de <span class="resaltado">Boehm</span> y <span class="resaltado">FURPS</span> presentan resultados muy similares, con puntajes de <span class="resaltado">90</span> y <span class="resaltado">90.7</span> respectivamente. Esto indica que, aunque también reflejan un buen desempeño del sistema, son ligeramente más exigentes o evalúan con mayor detalle ciertos factores como la mantenibilidad, el rendimiento y la usabilidad.
-</p>
-
-<p>
-En conjunto, los resultados evidencian consistencia entre los tres modelos, ya que todos coinciden en que el sistema posee una calidad alta. Sin embargo, la pequeña diferencia en los puntajes se debe a la forma en que cada modelo prioriza y pondera sus criterios de evaluación. Esto permite tener una visión más completa y confiable del nivel de calidad del software analizado.
-</p>
-
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-tag anim">Evaluación de Calidad de Software</div>
+  <h1 class="anim anim-d1">Análisis de<br><span>Spotify</span></h1>
+  <p class="anim anim-d2">Aplicación de los modelos McCall, Boehm y FURPS para medir el nivel de calidad del software desde múltiples perspectivas.</p>
+  <div class="hero-scores anim anim-d3">
+    <div class="hero-score-card">
+      <div class="val">95.8</div>
+      <div class="lbl">McCall</div>
+    </div>
+    <div class="hero-score-card">
+      <div class="val">90.0</div>
+      <div class="lbl">Boehm</div>
+    </div>
+    <div class="hero-score-card">
+      <div class="val">90.7</div>
+      <div class="lbl">FURPS</div>
+    </div>
+  </div>
 </div>
-</section>
-<section id="conclusiones">
-     <h3>conclusiones</h3>
-<style>
-.contenedor-conclusiones {
-    background: #f8fbf9;
-    border-left: 6px solid #1db954;
-    padding: 20px;
-    border-radius: 8px;
-    font-family: Arial, sans-serif;
-    color: #333;
-}
 
-.contenedor-conclusiones h3 {
-    color: #1db954;
-    margin-bottom: 15px;
-}
+<div class="container">
 
-.contenedor-conclusiones ul {
-    padding-left: 20px;
-}
+  <!-- ── 1. SOFTWARE ─────────────────────────────────────── -->
+  <section id="software">
+    <div class="sec-header">
+      <span class="sec-num">01</span>
+      <div>
+        <h2>Software Evaluado</h2>
+        <p>Ficha técnica e información general del sistema analizado</p>
+      </div>
+    </div>
+    <div class="info-grid">
+      <div class="info-cell">
+        <div class="lbl">🎵 Nombre</div>
+        <div class="val" style="font-family:'Syne';font-size:20px;font-weight:800;color:#fff">Spotify</div>
+      </div>
+      <div class="info-cell">
+        <div class="lbl">🏢 Empresa</div>
+        <div class="val">Tecnológica sueca fundada en 2006. Servicio de streaming más grande del mundo con más de 600 millones de usuarios.</div>
+      </div>
+      <div class="info-cell">
+        <div class="lbl">📄 Descripción</div>
+        <div class="val">Plataforma de streaming de música, podcasts y audiolibros con modo offline, recomendaciones personalizadas y acceso multiplataforma.</div>
+      </div>
+      <div class="info-cell">
+        <div class="lbl">⚖️ Licencia</div>
+        <div class="val">Uso personal no comercial. No se permite descargar ni redistribuir contenido fuera de la plataforma.</div>
+      </div>
+      <div class="info-cell">
+        <div class="lbl">🌍 Área de Aplicación</div>
+        <div class="val">Público general, artistas y creadores de contenido a nivel global.</div>
+      </div>
+      <div class="info-cell">
+        <div class="lbl">🔗 Acceso</div>
+        <div class="val"><a href="https://www.spotify.com" target="_blank">www.spotify.com ↗</a></div>
+      </div>
+    </div>
+  </section>
 
-.contenedor-conclusiones li {
-    margin-bottom: 12px;
-    text-align: justify;
-    line-height: 1.6;
-}
+  <!-- ── ESCALA ────────────────────────────────────────────── -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-num">02</span>
+      <div>
+        <h2>Escala de Valoraciones</h2>
+        <p>Sistema de puntuación aplicado en los tres modelos</p>
+      </div>
+    </div>
+    <div class="scale-strip">
+      <div class="scale-pill"><div class="dot dot-exc"></div>Excelente <span class="num">— 4</span></div>
+      <div class="scale-pill"><div class="dot dot-bue"></div>Bueno <span class="num">— 3</span></div>
+      <div class="scale-pill"><div class="dot dot-reg"></div>Regular <span class="num">— 2</span></div>
+      <div class="scale-pill"><div class="dot dot-mal"></div>Malo <span class="num">— 1</span></div>
+    </div>
+  </section>
 
-.resaltado {
-    font-weight: bold;
-    color: #1db954;
-}
-</style>
+  <!-- ── MCCALL ────────────────────────────────────────────── -->
+  <section id="mccall">
+    <div class="sec-header">
+      <span class="sec-num">03</span>
+      <div>
+        <h2>Modelo McCall</h2>
+        <p>Presentado en 1977. Evalúa calidad desde tres capacidades: Operación, Transición y Revisión del producto software.</p>
+      </div>
+    </div>
 
-<div class="contenedor-conclusiones">
+    <!-- Capacity cards -->
+    <div class="capacity-grid" style="margin-bottom:40px">
+      <div class="capacity-card">
+        <div class="cap-title">Operación</div>
+        <div class="cap-score">37.6 <span>/ 40</span></div>
+        <div class="cap-bar-wrap">
+          <div class="cap-bar-bg"><div class="cap-bar-fill" style="width:94%"></div></div>
+        </div>
+        <div class="factor-list">
+          <div class="factor-row"><span class="factor-name">Corrección</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:100%"></div></div><span class="factor-score">10.0</span></div>
+          <div class="factor-row"><span class="factor-name">Confiabilidad</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:95%"></div></div><span class="factor-score">9.5</span></div>
+          <div class="factor-row"><span class="factor-name">Usabilidad</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:100%"></div></div><span class="factor-score">10.0</span></div>
+          <div class="factor-row"><span class="factor-name">Seguridad</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:82%"></div></div><span class="factor-score">8.2</span></div>
+        </div>
+      </div>
+      <div class="capacity-card">
+        <div class="cap-title">Transición</div>
+        <div class="cap-score">28.2 <span>/ 30</span></div>
+        <div class="cap-bar-wrap">
+          <div class="cap-bar-bg"><div class="cap-bar-fill" style="width:94%"></div></div>
+        </div>
+        <div class="factor-list">
+          <div class="factor-row"><span class="factor-name">Portabilidad</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:100%"></div></div><span class="factor-score">10.0</span></div>
+          <div class="factor-row"><span class="factor-name">Reusabilidad</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:87%"></div></div><span class="factor-score">8.7</span></div>
+          <div class="factor-row"><span class="factor-name">Interoperabilidad</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:95%"></div></div><span class="factor-score">9.5</span></div>
+        </div>
+      </div>
+      <div class="capacity-card">
+        <div class="cap-title">Revisión</div>
+        <div class="cap-score">30.0 <span>/ 30</span></div>
+        <div class="cap-bar-wrap">
+          <div class="cap-bar-bg"><div class="cap-bar-fill" style="width:100%"></div></div>
+        </div>
+        <div class="factor-list">
+          <div class="factor-row"><span class="factor-name">Mantenimiento</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:100%"></div></div><span class="factor-score">10.0</span></div>
+          <div class="factor-row"><span class="factor-name">Flexibilidad</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:100%"></div></div><span class="factor-score">10.0</span></div>
+          <div class="factor-row"><span class="factor-name">Facilidad de Prueba</span><div class="factor-mini-bar"><div class="factor-mini-fill" style="width:100%"></div></div><span class="factor-score">10.0</span></div>
+        </div>
+      </div>
+    </div>
 
+    <!-- Relation table -->
+    <h3 style="font-family:'Syne';font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-0.01em">Relación Factores–Métricas</h3>
+    <div class="table-wrap" style="margin-bottom:40px">
+      <table>
+        <thead>
+          <tr>
+            <th class="left" rowspan="2">Descripción</th>
+            <th colspan="4">Operación</th>
+            <th colspan="3">Transición</th>
+            <th colspan="3">Revisión</th>
+          </tr>
+          <tr>
+            <th>Correc.</th><th>Confiab.</th><th>Usabil.</th><th>Segur.</th>
+            <th>Portab.</th><th>Reusab.</th><th>Interop.</th>
+            <th>Mant.</th><th>Flexib.</th><th>Prueba</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="left">Grado de implementación de funciones requeridas</td><td></td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="left">Complejidad del sistema</td><td></td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td>●</td><td>●</td></tr>
+          <tr><td class="left">Efectividad del recurso</td><td></td><td></td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="left">Diseño uniforme con técnicas de documentación</td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="left">Rendimiento en tiempo de ejecución</td><td></td><td>●</td><td>●</td><td>●</td><td>●</td><td></td><td></td><td>●</td><td>●</td><td>●</td></tr>
+          <tr><td class="left">Tipos de datos y estructuras uniformes</td><td>●</td><td></td><td></td><td></td><td></td><td>●</td><td>●</td><td></td><td>●</td><td></td></tr>
+          <tr><td class="left">Precisión en los cálculos</td><td></td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="left">Independencia respecto al sistema operativo</td><td></td><td></td><td>●</td><td>●</td><td>●</td><td></td><td></td><td>●</td><td>●</td><td>●</td></tr>
+          <tr><td class="left">Independencia funcional de componentes</td><td>●</td><td>●</td><td>●</td><td></td><td></td><td>●</td><td>●</td><td></td><td></td><td></td></tr>
+          <tr><td class="left">Facilidad de operación</td><td>●</td><td></td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="left">Disponibilidad de protección del recurso</td><td></td><td>●</td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="left">Grado de dificultad para entender el recurso</td><td></td><td>●</td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
 
-<ul>
-    <li>
-        La aplicación de los modelos de calidad <span class="resaltado">McCall, Boehm y FURPS</span> permitió evaluar el software desde diferentes perspectivas, evidenciando que cada modelo aporta un enfoque particular sobre la calidad, como operación, mantenibilidad, rendimiento y usabilidad.
-    </li>
+    <!-- Questionnaire -->
+    <h3 style="font-family:'Syne';font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-0.01em">Cuestionario de Evaluación</h3>
+    <div class="table-wrap" style="margin-bottom:40px">
+      <table>
+        <thead>
+          <tr>
+            <th>Métrica</th><th class="left">Descripción</th><th class="left">Pregunta</th><th>Esperado</th><th>Obtenido</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Compleción</td><td class="left">Implementación de funciones</td><td class="left">¿Permite reproducir y gestionar música?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Complejidad</td><td class="left">Complejidad del sistema</td><td class="left">¿La navegación es intuitiva?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Concisión</td><td class="left">Efectividad del recurso</td><td class="left">¿Cumple su objetivo principal?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Consistencia</td><td class="left">Diseño uniforme</td><td class="left">¿Funciona en distintos dispositivos?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Eficiencia</td><td class="left">Rendimiento</td><td class="left">¿Carga rápido y sin fallos?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Estandarización</td><td class="left">Gestión de datos</td><td class="left">¿Gestiona datos correctamente?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Exactitud</td><td class="left">Precisión</td><td class="left">¿Reproduce el audio correctamente?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Independencia</td><td class="left">Compatibilidad</td><td class="left">¿Funciona en varios sistemas operativos?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Modularidad</td><td class="left">Organización</td><td class="left">¿Organiza playlists correctamente?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Operatividad</td><td class="left">Facilidad de uso</td><td class="left">¿Es fácil de usar?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Seguridad</td><td class="left">Protección de datos</td><td class="left">¿Protege datos del usuario?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-bue">Bueno</span></td></tr>
+          <tr><td>Simplicidad</td><td class="left">Comprensión</td><td class="left">¿Interfaz clara y comprensible?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+        </tbody>
+      </table>
+    </div>
 
-    <li>
-        El modelo de <span class="resaltado">McCall</span> obtuvo el puntaje más alto, lo que indica que el sistema cumple de manera más completa con los factores clásicos de calidad del software, especialmente en aspectos operativos y de funcionamiento general.
-    </li>
+    <!-- Consolidation table -->
+    <h3 style="font-family:'Syne';font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-0.01em">Consolidación de Puntajes</h3>
+    <div class="table-wrap" style="margin-bottom:40px">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Métrica</th><th rowspan="2" class="left">Descripción</th>
+            <th colspan="4">Operación</th><th colspan="3">Transición</th><th colspan="3">Revisión</th>
+          </tr>
+          <tr>
+            <th>Correc.</th><th>Confiab.</th><th>Usabil.</th><th>Segur.</th>
+            <th>Portab.</th><th>Reusab.</th><th>Interop.</th>
+            <th>Mant.</th><th>Flexib.</th><th>Prueba</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Compleción</td><td class="left">Implementación de funciones</td><td>4</td><td>4</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Complejidad</td><td class="left">Complejidad del sistema</td><td>–</td><td>–</td><td>4</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>4</td><td>4</td></tr>
+          <tr><td>Concisión</td><td class="left">Efectividad</td><td>–</td><td>–</td><td>4</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Consistencia</td><td class="left">Diseño uniforme</td><td>4</td><td>4</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Eficiencia</td><td class="left">Rendimiento</td><td>–</td><td>4</td><td>4</td><td>4</td><td>–</td><td>–</td><td>–</td><td>4</td><td>4</td><td>4</td></tr>
+          <tr><td>Estandarización</td><td class="left">Gestión de datos</td><td>4</td><td>–</td><td>–</td><td>–</td><td>–</td><td>4</td><td>4</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Exactitud</td><td class="left">Precisión</td><td>–</td><td>4</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Independencia</td><td class="left">Compatibilidad</td><td>–</td><td>–</td><td>–</td><td>–</td><td>4</td><td>–</td><td>4</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Modularidad</td><td class="left">Organización</td><td>4</td><td>4</td><td>4</td><td>–</td><td>–</td><td>3</td><td>3</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Operatividad</td><td class="left">Facilidad de uso</td><td>4</td><td>–</td><td>4</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Seguridad</td><td class="left">Protección de datos</td><td>–</td><td>3</td><td>3</td><td>3</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>Simplicidad</td><td class="left">Comprensión</td><td>–</td><td>4</td><td>4</td><td>4</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+        </tbody>
+        <tfoot>
+          <tr class="tfoot-row"><td colspan="2">Promedio por Factor</td><td>4.0</td><td>3.8</td><td>4.0</td><td>3.3</td><td>4.0</td><td>3.5</td><td>3.8</td><td>4.0</td><td>4.0</td><td>4.0</td></tr>
+          <tr class="tfoot-row"><td colspan="2">Escala por Factor</td><td>10</td><td>9.5</td><td>10</td><td>8.2</td><td>10</td><td>8.7</td><td>9.5</td><td>10</td><td>10</td><td>10</td></tr>
+          <tr class="tfoot-row"><td colspan="2">Promedio por Capacidad</td><td colspan="4">9.4</td><td colspan="3">9.4</td><td colspan="3">10.0</td></tr>
+        </tfoot>
+      </table>
+    </div>
 
-    <li>
-        Los modelos de <span class="resaltado">Boehm</span> y <span class="resaltado">FURPS</span> presentaron resultados muy similares, lo que demuestra consistencia en la evaluación y confirma que el sistema también cumple adecuadamente en criterios como confiabilidad, rendimiento y facilidad de uso.
-    </li>
+    <!-- Results -->
+    <h3 style="font-family:'Syne';font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-0.01em">Resultados de la Evaluación</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Capacidad</th><th>Puntaje Global</th><th>Factor</th><th>Puntaje Factor</th><th>Puntaje Obtenido</th><th>Puntaje Capacidad</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="cap-label" rowspan="4">Operación</td><td rowspan="4">40</td><td>Corrección</td><td>10</td><td>10</td><td rowspan="4" style="font-family:'Syne';font-weight:800;font-size:20px;color:#1db954">37.6</td></tr>
+          <tr><td>Confiabilidad</td><td>10</td><td>9.5</td></tr>
+          <tr><td>Usabilidad</td><td>10</td><td>10</td></tr>
+          <tr><td>Seguridad</td><td>10</td><td>8.2</td></tr>
+          <tr><td class="cap-label" rowspan="3">Transición</td><td rowspan="3">30</td><td>Portabilidad</td><td>10</td><td>10</td><td rowspan="3" style="font-family:'Syne';font-weight:800;font-size:20px;color:#1db954">28.2</td></tr>
+          <tr><td>Reusabilidad</td><td>10</td><td>8.7</td></tr>
+          <tr><td>Interoperabilidad</td><td>10</td><td>9.5</td></tr>
+          <tr><td class="cap-label" rowspan="3">Revisión</td><td rowspan="3">30</td><td>Mantenimiento</td><td>10</td><td>10</td><td rowspan="3" style="font-family:'Syne';font-weight:800;font-size:20px;color:#1db954">30.0</td></tr>
+          <tr><td>Flexibilidad</td><td>10</td><td>10</td></tr>
+          <tr><td>Facilidad de Prueba</td><td>10</td><td>10</td></tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row"><td>Puntaje Total</td><td>100</td><td>—</td><td>100</td><td>95.9</td><td>95.8</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
 
-    <li>
-        Las pequeñas diferencias en los puntajes obtenidos reflejan que cada modelo tiene distintos criterios de evaluación y niveles de exigencia, lo que resalta la importancia de utilizar múltiples modelos para obtener un análisis más integral.
-    </li>
+  <!-- ── BOEHM ─────────────────────────────────────────────── -->
+  <section id="boehm">
+    <div class="sec-header">
+      <span class="sec-num">04</span>
+      <div>
+        <h2>Modelo Boehm</h2>
+        <p>Presentado por Barry Boehm en 1978. Introduce características de alto nivel, nivel intermedio y primitivas, cada una contribuyendo al nivel general de calidad.</p>
+      </div>
+    </div>
 
-    <li>
-        En general, los resultados obtenidos en los tres modelos evidencian que el software evaluado posee un <span class="resaltado">alto nivel de calidad</span>, lo que garantiza un buen desempeño, confiabilidad y aceptación por parte de los usuarios.
-    </li>
-</ul>
-   <p>
-        El software Spotify presenta un alto nivel de calidad en todos los modelos evaluados.
-        Destaca en funcionalidad, usabilidad y rendimiento, aunque puede mejorar en aspectos
-        como soporte offline y accesibilidad.
-    </p>
+    <div class="table-wrap" style="margin-bottom:40px">
+      <table>
+        <thead>
+          <tr>
+            <th>Alto Nivel</th><th>Puntaje</th><th>Nivel Intermedio</th><th>Características Primitivas</th><th>Puntaje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="boehm-utilgen"><td class="cap-label hl" rowspan="2">Utilidad General</td><td rowspan="2">10</td><td rowspan="2">Portabilidad</td><td>Independencia de Dispositivos</td><td>5</td></tr>
+          <tr class="boehm-utilgen"><td>Auto-contención</td><td>5</td></tr>
 
-</div>
-</section>
-    <section id="referencias">
+          <tr class="boehm-util"><td class="cap-label hl" rowspan="10">Utilidad</td><td rowspan="10">70</td><td rowspan="4">Fiabilidad</td><td>Precisión</td><td rowspan="4">40</td></tr>
+          <tr class="boehm-util"><td>Completitud</td></tr>
+          <tr class="boehm-util"><td>Robustez</td></tr>
+          <tr class="boehm-util"><td>Consistencia</td></tr>
+          <tr class="boehm-util"><td rowspan="3">Eficiencia</td><td>Responsabilidad</td><td rowspan="3">15</td></tr>
+          <tr class="boehm-util"><td>Eficiencia de dispositivos</td></tr>
+          <tr class="boehm-util"><td>Accesibilidad</td></tr>
+          <tr class="boehm-util"><td rowspan="3">Interactividad</td><td>Robustez</td><td rowspan="3">15</td></tr>
+          <tr class="boehm-util"><td>Accesibilidad</td></tr>
+          <tr class="boehm-util"><td>Capacidad de comunicación</td></tr>
 
-<style>
-.contenedor-referencias {
-    background: #f8fbf9;
-    border-left: 6px solid #1db954;
-    padding: 20px;
-    border-radius: 8px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    margin-top: 20px;
-}
+          <tr class="boehm-mant"><td class="cap-label hl" rowspan="6">Mantenibilidad</td><td rowspan="6">20</td><td rowspan="2">Facilidad de Prueba</td><td>Auto-descripción</td><td rowspan="2">5</td></tr>
+          <tr class="boehm-mant"><td>Estructuración</td></tr>
+          <tr class="boehm-mant"><td rowspan="2">Facilidad de Entendimiento</td><td>Concisión</td><td rowspan="2">10</td></tr>
+          <tr class="boehm-mant"><td>Legibilidad</td></tr>
+          <tr class="boehm-mant"><td rowspan="2">Modificabilidad</td><td>Estructuración</td><td rowspan="2">5</td></tr>
+          <tr class="boehm-mant"><td>Escalabilidad</td></tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row"><td colspan="2">Puntaje Total</td><td colspan="2">—</td><td>100</td></tr>
+        </tfoot>
+      </table>
+    </div>
 
-.contenedor-referencias h3 {
-    color: #1db954;
-    margin-bottom: 15px;
-}
+    <h3 style="font-family:'Syne';font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-0.01em">Cuestionario de Evaluación</h3>
+    <div class="table-wrap" style="margin-bottom:40px">
+      <table>
+        <thead>
+          <tr><th>Alto Nivel</th><th>Nivel Intermedio</th><th>Primitiva</th><th class="left">Pregunta</th><th>Esperado</th><th>Obtenido</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="cap-label" rowspan="2">Ut. General</td><td rowspan="2">Portabilidad</td><td>Independencia de Disp.</td><td class="left">¿Funciona en móvil, PC y web?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Auto-contención</td><td class="left">¿Funciona sin internet?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-reg">Regular</span></td></tr>
 
-.contenedor-referencias ul {
-    padding-left: 20px;
-}
+          <tr><td class="cap-label" rowspan="10">Utilidad</td><td rowspan="4">Fiabilidad</td><td>Precisión</td><td class="left">¿Reproduce correctamente música?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Completitud</td><td class="left">¿Tiene suficiente contenido?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Robustez</td><td class="left">¿Evita fallos?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-bue">Bueno</span></td></tr>
+          <tr><td>Consistencia</td><td class="left">¿Mantiene diseño uniforme?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td rowspan="3">Eficiencia</td><td>Responsabilidad</td><td class="left">¿Responde rápido?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Efic. de dispositivos</td><td class="left">¿Funciona en diferentes equipos?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Accesibilidad</td><td class="left">¿Fácil acceso?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-bue">Bueno</span></td></tr>
+          <tr><td rowspan="3">Interactividad</td><td>Robustez</td><td class="left">¿Interacción estable?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Accesibilidad</td><td class="left">¿Acceso para usuarios con limitaciones?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-reg">Regular</span></td></tr>
+          <tr><td>Cap. de comunicación</td><td class="left">¿Interactúa con el usuario?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
 
-.contenedor-referencias li {
-    margin-bottom: 12px;
-    text-align: justify;
-    line-height: 1.6;
-}
+          <tr><td class="cap-label" rowspan="6">Mantenibi&shy;lidad</td><td rowspan="2">Facilidad de Prueba</td><td>Auto-descripción</td><td class="left">¿Tiene ayuda o soporte?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-bue">Bueno</span></td></tr>
+          <tr><td>Estructuración</td><td class="left">¿Organiza funciones claramente?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td rowspan="2">Facilidad de Entend.</td><td>Concisión</td><td class="left">¿Es fácil de entender?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td>Legibilidad</td><td class="left">¿Textos claros?</td><td><span class="badge badge-exc">Excelente</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+          <tr><td rowspan="2">Modificabilidad</td><td>Estructuración</td><td class="left">¿Permite cambios sin afectar?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-bue">Bueno</span></td></tr>
+          <tr><td>Escalabilidad</td><td class="left">¿Se adapta al crecimiento?</td><td><span class="badge badge-bue">Bueno</span></td><td><span class="badge badge-exc">Excelente</span></td></tr>
+        </tbody>
+      </table>
+    </div>
 
-.contenedor-referencias a {
-    color: #1db954;
-    text-decoration: none;
-}
+    <h3 style="font-family:'Syne';font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-0.01em">Puntuación Obtenida — Boehm</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Alto Nivel</th><th>Nivel Intermedio</th><th>Primitiva</th><th>Puntaje</th><th>Escala</th><th>Nivel</th><th>Total</th><th>Total Eval.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="cap-label" rowspan="2">Ut. General</td><td rowspan="2">Portabilidad</td><td>Independencia de Disp.</td><td>4</td><td>5</td><td rowspan="2">7.5</td><td rowspan="2">7.5</td><td rowspan="18" style="font-family:'Syne';font-weight:800;font-size:28px;color:#1db954">90</td></tr>
+          <tr><td>Auto-contención</td><td>2</td><td>2.5</td></tr>
 
-.contenedor-referencias a:hover {
-    text-decoration: underline;
-}
-</style>
+          <tr><td class="cap-label" rowspan="10">Utilidad</td><td rowspan="4">Fiabilidad</td><td>Precisión</td><td>4</td><td>10</td><td rowspan="4">37.5</td><td rowspan="10">63.75</td></tr>
+          <tr><td>Completitud</td><td>4</td><td>10</td></tr>
+          <tr><td>Robustez</td><td>3</td><td>7.5</td></tr>
+          <tr><td>Consistencia</td><td>4</td><td>10</td></tr>
+          <tr><td rowspan="3">Eficiencia</td><td>Responsabilidad</td><td>4</td><td>5</td><td rowspan="3">1.75</td></tr>
+          <tr><td>Efic. de dispositivos</td><td>4</td><td>5</td></tr>
+          <tr><td>Accesibilidad</td><td>3</td><td>3.75</td></tr>
+          <tr><td rowspan="3">Interactividad</td><td>Robustez</td><td>4</td><td>5</td><td rowspan="3">12.5</td></tr>
+          <tr><td>Accesibilidad</td><td>2</td><td>2.5</td></tr>
+          <tr><td>Cap. de comunicación</td><td>4</td><td>5</td></tr>
 
-<div class="contenedor-referencias">
+          <tr><td class="cap-label" rowspan="6">Mantenibilidad</td><td rowspan="2">Facilidad de Prueba</td><td>Auto-descripción</td><td>3</td><td>1.87</td><td rowspan="2">4.375</td><td rowspan="6">18.75</td></tr>
+          <tr><td>Estructuración</td><td>4</td><td>2.5</td></tr>
+          <tr><td rowspan="2">Facilidad de Entend.</td><td>Concisión</td><td>4</td><td>5</td><td rowspan="2">10</td></tr>
+          <tr><td>Legibilidad</td><td>4</td><td>5</td></tr>
+          <tr><td rowspan="2">Modificabilidad</td><td>Estructuración</td><td>3</td><td>1.875</td><td rowspan="2">4.375</td></tr>
+          <tr><td>Escalabilidad</td><td>4</td><td>2.5</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-<h3>Referencias Bibliográficas</h3>
+  <!-- ── FURPS ─────────────────────────────────────────────── -->
+  <section id="furps">
+    <div class="sec-header">
+      <span class="sec-num">05</span>
+      <div>
+        <h2>Modelo FURPS</h2>
+        <p>Desarrollado por Robert Grady y Hewlett Packard en 1987. Evalúa Funcionalidad, Usabilidad, Confiabilidad, Rendimiento y Soporte.</p>
+      </div>
+    </div>
 
-<ul>
-    <li>
-        Chinchilla, Z. (2016). <i>Libro Electrónico Multimedial: Recursos Educativos Digitales. Capítulos I y II.</i> (CVUDES). 
-        <br>
-        <a href="https://aulavirtual-eew.cvudes.edu.co/publico/lems/L.000.011.EATE/Documentos/cap1/Capitulo_Completo.pdf" target="_blank">
-        Ver documento
-        </a>
-    </li>
+    <div class="capacity-grid" style="margin-bottom:40px">
+      <div class="capacity-card">
+        <div class="cap-title">F — Funcionalidad</div>
+        <div class="cap-score">25.0 <span>/ 30</span></div>
+        <div class="cap-bar-wrap"><div class="cap-bar-bg"><div class="cap-bar-fill" style="width:83%"></div></div></div>
+      </div>
+      <div class="capacity-card">
+        <div class="cap-title">U — Usabilidad</div>
+        <div class="cap-score">18.8 <span>/ 20</span></div>
+        <div class="cap-bar-wrap"><div class="cap-bar-bg"><div class="cap-bar-fill" style="width:94%"></div></div></div>
+      </div>
+      <div class="capacity-card">
+        <div class="cap-title">R — Confiabilidad</div>
+        <div class="cap-score">13.8 <span>/ 15</span></div>
+        <div class="cap-bar-wrap"><div class="cap-bar-bg"><div class="cap-bar-fill" style="width:92%"></div></div></div>
+      </div>
+      <div class="capacity-card">
+        <div class="cap-title">P — Rendimiento</div>
+        <div class="cap-score">18.8 <span>/ 20</span></div>
+        <div class="cap-bar-wrap"><div class="cap-bar-bg"><div class="cap-bar-fill" style="width:94%"></div></div></div>
+      </div>
+      <div class="capacity-card">
+        <div class="cap-title">S — Soporte</div>
+        <div class="cap-score">14.3 <span>/ 15</span></div>
+        <div class="cap-bar-wrap"><div class="cap-bar-bg"><div class="cap-bar-fill" style="width:95%"></div></div></div>
+      </div>
+    </div>
 
-    <li>
-        Rey, A. (2015). <i>Libro Electrónico Multimedial: Evaluación de la Calidad de la Tecnología Educativa. Capítulos II y IV.</i> (CVUDES). 
-        <br>
-        <a href="https://aulavirtual-eew.cvudes.edu.co/publico/lems/L.000.007.EATE/Documentos/cap2/Capitulo_Completo.pdf" target="_blank">
-        Ver documento
-        </a>
-    </li>
+    <div class="table-wrap" style="margin-bottom:40px">
+      <table>
+        <thead>
+          <tr><th>Sigla</th><th>Característica</th><th class="left">Factor</th><th>Puntaje Factor</th><th>Puntaje Obtenido</th><th>Pnt. Escala</th><th>Nivel</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="cap-label" rowspan="3">F</td><td rowspan="3">Funcionalidad</td><td class="left">Características y capacidades del programa</td><td>10</td><td>4</td><td>10</td><td rowspan="3">25</td></tr>
+          <tr><td class="left">Generalidad de las funciones</td><td>10</td><td>3</td><td>7.5</td></tr>
+          <tr><td class="left">Seguridad del sistema</td><td>10</td><td>3</td><td>7.5</td></tr>
 
-    <li>
-        Ortiz, K. (2018). <i>Modelos de Calidad de Software FURPS</i> (Video). 
-        <br>
-        <a href="https://www.youtube.com/watch?v=_Y01_ve0deo" target="_blank">
-        Ver video
-        </a>
-    </li>
+          <tr><td class="cap-label" rowspan="4">U</td><td rowspan="4">Usabilidad</td><td class="left">Capacidad de prueba</td><td>5</td><td>4</td><td>5</td><td rowspan="4">18.8</td></tr>
+          <tr><td class="left">Capacidad de configuración</td><td>5</td><td>4</td><td>5</td></tr>
+          <tr><td class="left">Compatibilidad</td><td>5</td><td>4</td><td>5</td></tr>
+          <tr><td class="left">Requisitos de instalación</td><td>5</td><td>3</td><td>3.8</td></tr>
 
-    <li>
-        Fillotranni, P. (2007). <i>Calidad del desarrollo de software. Modelos de Calidad de Software.</i> Universidad Nacional del Sur. 
-        <br>
-        <a href="http://www.cs.uns.edu.ar/~prf/teaching/SQ07/clase6.pdf" target="_blank">
-        Ver documento
-        </a>
-    </li>
-</ul>
+          <tr><td class="cap-label" rowspan="3">R</td><td rowspan="3">Confiabilidad</td><td class="left">Frecuencia y severidad de fallos</td><td>5</td><td>3</td><td>3.8</td><td rowspan="3">13.8</td></tr>
+          <tr><td class="left">Exactitud de las salidas</td><td>5</td><td>4</td><td>5</td></tr>
+          <tr><td class="left">Capacidad de predicción</td><td>5</td><td>4</td><td>5</td></tr>
+
+          <tr><td class="cap-label" rowspan="4">P</td><td rowspan="4">Rendimiento</td><td class="left">Factores humanos</td><td>5</td><td>4</td><td>5</td><td rowspan="4">18.8</td></tr>
+          <tr><td class="left">Factores estéticos</td><td>5</td><td>3</td><td>3.8</td></tr>
+          <tr><td class="left">Consistencia de la interfaz</td><td>5</td><td>4</td><td>5</td></tr>
+          <tr><td class="left">Documentación</td><td>5</td><td>4</td><td>5</td></tr>
+
+          <tr><td class="cap-label" rowspan="5">S</td><td rowspan="5">Soporte</td><td class="left">Velocidad de procesamiento</td><td>3</td><td>4</td><td>3</td><td rowspan="5">14.3</td></tr>
+          <tr><td class="left">Tiempo de respuesta</td><td>3</td><td>4</td><td>3</td></tr>
+          <tr><td class="left">Consumo de recursos</td><td>3</td><td>3</td><td>2.3</td></tr>
+          <tr><td class="left">Rendimiento efectivo total</td><td>3</td><td>4</td><td>3</td></tr>
+          <tr><td class="left">Eficacia</td><td>3</td><td>4</td><td>3</td></tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row"><td colspan="6">Total FURPS</td><td>90.7</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── COMPARACIÓN ────────────────────────────────────────── -->
+  <section id="comparacion">
+    <div class="sec-header">
+      <span class="sec-num">06</span>
+      <div>
+        <h2>Comparación de Resultados</h2>
+        <p>Contraste entre los tres modelos de evaluación aplicados</p>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card top">
+        <div class="model-name">McCall</div>
+        <div class="score-big">95.8</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:95.8%"></div></div>
+      </div>
+      <div class="compare-card">
+        <div class="model-name">FURPS</div>
+        <div class="score-big">90.7</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:90.7%"></div></div>
+      </div>
+      <div class="compare-card">
+        <div class="model-name">Boehm</div>
+        <div class="score-big">90.0</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:90%"></div></div>
+      </div>
+    </div>
+
+    <div class="analysis">
+      <p>La comparación de resultados entre los modelos aplicados muestra que todos presentan puntajes altos, indicando un buen nivel general del sistema. El modelo de <strong>McCall</strong> obtuvo el puntaje más alto con <strong>95.8</strong>, lo que sugiere que bajo este enfoque el sistema cumple de manera sobresaliente con los criterios clásicos de calidad, especialmente en operación, revisión y transición.</p>
+      <p>Los modelos de <strong>Boehm</strong> y <strong>FURPS</strong> presentan resultados muy similares, con puntajes de <strong>90.0</strong> y <strong>90.7</strong> respectivamente. Esto indica que, aunque también reflejan buen desempeño, son ligeramente más exigentes en factores como mantenibilidad, rendimiento y usabilidad.</p>
+      <p>En conjunto, los resultados evidencian <strong>consistencia entre los tres modelos</strong>, ya que todos coinciden en que el sistema posee una calidad alta. Las pequeñas diferencias se deben a cómo cada modelo prioriza y pondera sus criterios de evaluación.</p>
+    </div>
+  </section>
+
+  <!-- ── CONCLUSIONES ───────────────────────────────────────── -->
+  <section id="conclusiones">
+    <div class="sec-header">
+      <span class="sec-num">07</span>
+      <div>
+        <h2>Conclusiones</h2>
+        <p>Síntesis de los hallazgos obtenidos en la evaluación</p>
+      </div>
+    </div>
+    <div class="concl-list">
+      <div class="concl-item"><span class="concl-num">01</span><p>La aplicación de los modelos <strong>McCall, Boehm y FURPS</strong> permitió evaluar el software desde diferentes perspectivas, evidenciando que cada modelo aporta un enfoque particular sobre la calidad: operación, mantenibilidad, rendimiento y usabilidad.</p></div>
+      <div class="concl-item"><span class="concl-num">02</span><p>El modelo de <strong>McCall</strong> obtuvo el puntaje más alto, lo que indica que el sistema cumple de manera más completa con los factores clásicos de calidad, especialmente en aspectos operativos y de funcionamiento general.</p></div>
+      <div class="concl-item"><span class="concl-num">03</span><p>Los modelos de <strong>Boehm y FURPS</strong> presentaron resultados muy similares, lo que demuestra consistencia en la evaluación y confirma que el sistema cumple adecuadamente en criterios como confiabilidad, rendimiento y facilidad de uso.</p></div>
+      <div class="concl-item"><span class="concl-num">04</span><p>Las pequeñas diferencias en los puntajes reflejan que cada modelo tiene distintos criterios de evaluación y niveles de exigencia, resaltando la importancia de utilizar <strong>múltiples modelos</strong> para obtener un análisis integral.</p></div>
+      <div class="concl-item"><span class="concl-num">05</span><p>En general, Spotify presenta un <strong>alto nivel de calidad</strong> en todos los modelos evaluados. Destaca en funcionalidad, usabilidad y rendimiento, aunque puede mejorar en aspectos como soporte offline y accesibilidad para usuarios con limitaciones.</p></div>
+    </div>
+  </section>
+
+  <!-- ── REFERENCIAS ────────────────────────────────────────── -->
+  <section id="referencias">
+    <div class="sec-header">
+      <span class="sec-num">08</span>
+      <div>
+        <h2>Referencias Bibliográficas</h2>
+      </div>
+    </div>
+    <div class="ref-list">
+      <div class="ref-item"><div>Chinchilla, Z. (2016). <em>LEM: Recursos Educativos Digitales. Capítulos I y II.</em> CVUDES.</div><a href="https://aulavirtual-eew.cvudes.edu.co/publico/lems/L.000.011.EATE/Documentos/cap1/Capitulo_Completo.pdf" target="_blank">Ver ↗</a></div>
+      <div class="ref-item"><div>Rey, A. (2015). <em>LEM: Evaluación de la Calidad de la Tecnología Educativa. Capítulos II y IV.</em> CVUDES.</div><a href="https://aulavirtual-eew.cvudes.edu.co/publico/lems/L.000.007.EATE/Documentos/cap2/Capitulo_Completo.pdf" target="_blank">Ver ↗</a></div>
+      <div class="ref-item"><div>Ortiz, K. (2018). <em>Modelos de Calidad de Software FURPS.</em> Video.</div><a href="https://www.youtube.com/watch?v=_Y01_ve0deo" target="_blank">Ver ↗</a></div>
+      <div class="ref-item"><div>Fillotranni, P. (2007). <em>Calidad del desarrollo de software. Modelos de Calidad.</em> Universidad Nacional del Sur.</div><a href="http://www.cs.uns.edu.ar/~prf/teaching/SQ07/clase6.pdf" target="_blank">Ver ↗</a></div>
+    </div>
+  </section>
 
 </div>
 
-</section>
-
+<!-- FOOTER -->
 <footer>
-    <p>Proyecto Académico - Evaluación de Calidad de Software</p>
+  <span>Spotify QA</span>
+  <span style="color:var(--muted)">Proyecto Académico — Evaluación de Calidad de Software · McCall · Boehm · FURPS</span>
 </footer>
 
+<script>
+// Active nav on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
 </body>
 </html>
