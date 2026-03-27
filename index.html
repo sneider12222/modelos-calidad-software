@@ -1484,19 +1484,132 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
 
 <section id="furps">
     <h2>5. Modelo FURPS</h2>
-    <p>Evalúa funcionalidad, usabilidad, confiabilidad, rendimiento y soporte.</p>
+    <p>
+Robert Grady y Hewlett Packard (HP) en 1987, desarrollaron el modelo de calidad FURPS, el cual se emplea diferentes factores de calidad de software, identificando 5 características de los cuales se deriva su nombre Functionality, Usability , Reliability, Performance, Supportability (Funcionalidad, Facilidad de Uso, Fiabilidad, Rendimiento, Soporte).
+</p>
+    <style>
+.tabla-furps {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
 
-    <table>
-        <tr><th>Factor</th><th>Puntaje</th></tr>
-        <tr><td>Funcionalidad</td><td>90.7</td></tr>
-        <tr><td>Usabilidad</td><td>18.8</td></tr>
-        <tr><td>Confiabilidad</td><td>13.8</td></tr>
-        <tr><td>Rendimiento</td><td>18.8</td></tr>
-        <tr><td>Soporte</td><td>14.3</td></tr>
-    </table>
+.tabla-furps th, .tabla-furps td {
+    border: 1px solid #333;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+}
 
-    <h3>Resultado Final</h3>
-    <p><b>90.7 / 100</b></p>
+.tabla-furps th {
+    background: #1db954;
+    color: white;
+}
+
+.left { text-align: left; }
+
+.nivel {
+    background: #eef7f1;
+    font-weight: bold;
+}
+</style>
+
+<table class="tabla-furps">
+
+<tr>
+<th>Sigla</th>
+<th>Característica</th>
+<th>Tipo</th>
+<th>Puntaje</th>
+<th>Factor</th>
+<th>Puntaje</th>
+</tr>
+
+<!-- FUNCTIONALITY -->
+<tr class="nivel">
+<td rowspan="3">F</td>
+<td rowspan="3">Functionality</td>
+<td rowspan="3">FUNCIONALIDAD</td>
+<td rowspan="3">30</td>
+<td class="left">Características y capacidades del programa</td>
+<td>10</td>
+</tr>
+
+<tr>
+<td class="left">Generalidad de las funciones</td>
+<td>10</td>
+</tr>
+
+<tr>
+<td class="left">Seguridad del sistema</td>
+<td>10</td>
+</tr>
+
+<!-- USABILITY -->
+<tr class="nivel">
+<td rowspan="4">U</td>
+<td rowspan="4">Usability</td>
+<td rowspan="4">FACILIDAD DE USO</td>
+<td rowspan="4">20</td>
+<td class="left">Capacidad de prueba</td>
+<td>5</td>
+</tr>
+
+<tr><td class="left">Capacidad de configuración</td><td>5</td></tr>
+<tr><td class="left">Compatibilidad</td><td>5</td></tr>
+<tr><td class="left">Requisitos de instalación</td><td>5</td></tr>
+
+<!-- RELIABILITY -->
+<tr class="nivel">
+<td rowspan="3">R</td>
+<td rowspan="3">Reliability</td>
+<td rowspan="3">CONFIABILIDAD</td>
+<td rowspan="3">15</td>
+<td class="left">Frecuencia y severidad de fallos</td>
+<td>5</td>
+</tr>
+
+<tr><td class="left">Exactitud de las salidas</td><td>5</td></tr>
+<tr><td class="left">Capacidad de predicción</td><td>5</td></tr>
+
+<!-- PERFORMANCE -->
+<tr class="nivel">
+<td rowspan="4">P</td>
+<td rowspan="4">Performance</td>
+<td rowspan="4">RENDIMIENTO</td>
+<td rowspan="4">20</td>
+<td class="left">Factores humanos</td>
+<td>5</td>
+</tr>
+
+<tr><td class="left">Factores estéticos</td><td>5</td></tr>
+<tr><td class="left">Consistencia de la interfaz</td><td>5</td></tr>
+<tr><td class="left">Documentación</td><td>5</td></tr>
+
+<!-- SUPPORTABILITY -->
+<tr class="nivel">
+<td rowspan="5">S</td>
+<td rowspan="5">Supportability</td>
+<td rowspan="5">SOPORTE</td>
+<td rowspan="5">15</td>
+<td class="left">Velocidad de procesamiento</td>
+<td>3</td>
+</tr>
+
+<tr><td class="left">Tiempo de respuesta</td><td>3</td></tr>
+<tr><td class="left">Consumo de recursos</td><td>3</td></tr>
+<tr><td class="left">Rendimiento efectivo total</td><td>3</td></tr>
+<tr><td class="left">Eficacia</td><td>3</td></tr>
+
+<!-- TOTAL -->
+<tr class="nivel">
+<td colspan="3">PUNTAJE TOTAL</td>
+<td>100</td>
+<td></td>
+<td>100</td>
+</tr>
+
+</table>
 </section>
 
 <section id="comparacion">
