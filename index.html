@@ -1035,16 +1035,22 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
     <h3>Modelo Boehm</h3>
 
 <style>
+.contenedor-tabla {
+    overflow-x: auto; /* 👈 evita que se dañe en pantallas pequeñas */
+}
+
 .tabla-boehm {
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
+    min-width: 900px; /* 👈 mantiene estructura */
 }
 
 .tabla-boehm th, .tabla-boehm td {
-    border: 1px solid black;
-    padding: 6px;
+    border: 1px solid #333;
+    padding: 8px;
     text-align: center;
+    vertical-align: middle;
 }
 
 .tabla-boehm th {
@@ -1070,8 +1076,15 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
     background: #0b2c5f;
     color: yellow;
     font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.tabla-boehm tr:hover {
+    background: #eef7f1;
 }
 </style>
+
+<div class="contenedor-tabla">
 
 <table class="tabla-boehm">
 
@@ -1131,8 +1144,8 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
 
 <!-- MANTENIBILIDAD -->
 <tr>
-<td class="manten" rowspan="5">MANTENIBILIDAD</td>
-<td class="manten" rowspan="5">20</td>
+<td class="manten" rowspan="6">MANTENIBILIDAD</td>
+<td class="manten" rowspan="6">20</td>
 <td rowspan="2">Facilidad de Prueba</td>
 <td>Auto descripción</td>
 <td rowspan="2">5</td>
@@ -1154,20 +1167,20 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
 <td rowspan="2">5</td>
 </tr>
 
-<tr>
-<td colspan="3">Escalabilidad</td>
-</tr>
+<tr><td>Escalabilidad</td></tr>
 
 <!-- TOTAL -->
 <tr>
-<td colspan="2">Puntaje Total</td>
-<td>100</td>
+<td colspan="2"><b>Puntaje Total</b></td>
+<td><b>100</b></td>
 <td></td>
 <td></td>
-<td>100</td>
+<td><b>100</b></td>
 </tr>
 
 </table>
+
+</div>
 
     <h3>Resultado Final</h3>
     <p><b>90 / 100</b></p>
