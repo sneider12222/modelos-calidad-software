@@ -11,13 +11,13 @@
   --green:   #1db954;
   --green-d: #15883d;
   --green-g: #0f5c2a;
-  --black:   #0a0a0a;
-  --dark:    #111111;
-  --card:    #161616;
-  --border:  rgba(255,255,255,0.07);
-  --muted:   #555;
-  --text:    #e8e8e8;
-  --text-2:  #999;
+  --black:   #1a1a1a;
+  --dark:    #202020;
+  --card:    #272727;
+  --border:  rgba(255,255,255,0.1);
+  --muted:   #777;
+  --text:    #f2f2f2;
+  --text-2:  #c0c0c0;
   --radius:  14px;
   --gap:     clamp(32px, 5vw, 64px);
 }
@@ -56,7 +56,7 @@ body::before {
 /* ─── NAV ───────────────────────────────────────────────── */
 nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(10,10,10,0.85);
+  background: rgba(26,26,26,0.92);
   backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border);
   padding: 0 clamp(16px,5vw,80px);
@@ -254,7 +254,7 @@ nav a.active { color: var(--black); background: var(--green); }
 }
 .info-cell .val {
   font-size: 14px;
-  color: var(--text);
+  color: #d8d8d8;
   font-weight: 400;
 }
 .info-cell a { color: var(--green); text-decoration: none; }
@@ -321,7 +321,7 @@ nav a.active { color: var(--black); background: var(--green); }
   font-size: 13px;
 }
 .factor-row:last-child { border-bottom: none; }
-.factor-name { color: var(--text-2); }
+.factor-name { color: #c0c0c0; }
 .factor-score {
   font-family: 'Syne', sans-serif;
   font-weight: 700;
@@ -366,7 +366,7 @@ tbody td {
   padding: 11px 16px;
   text-align: center;
   border-bottom: 1px solid var(--border);
-  color: var(--text-2);
+  color: #d8d8d8;
   vertical-align: middle;
 }
 tbody td.left { text-align: left; }
@@ -486,7 +486,7 @@ tbody tr:hover td { background: rgba(255,255,255,0.02); color: var(--text); }
   padding: 28px 32px;
   font-size: 15px;
   font-weight: 300;
-  color: var(--text-2);
+  color: #d0d0d0;
   line-height: 1.8;
 }
 .analysis p { margin-bottom: 14px; }
@@ -517,7 +517,7 @@ tbody tr:hover td { background: rgba(255,255,255,0.02); color: var(--text); }
   flex-shrink: 0;
   margin-top: 1px;
 }
-.concl-item p { font-size: 14px; color: var(--text-2); font-weight: 300; line-height: 1.7; }
+.concl-item p { font-size: 14px; color: #d0d0d0; font-weight: 300; line-height: 1.7; }
 .concl-item strong { color: var(--text); font-weight: 500; }
 
 /* ─── REFS ──────────────────────────────────────────────── */
@@ -529,7 +529,7 @@ tbody tr:hover td { background: rgba(255,255,255,0.02); color: var(--text); }
   padding: 16px 20px;
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
   font-size: 13px;
-  color: var(--text-2);
+  color: #d0d0d0;
   transition: border-color 0.2s;
 }
 .ref-item:hover { border-color: rgba(29,185,84,0.3); }
