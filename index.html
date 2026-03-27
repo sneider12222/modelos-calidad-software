@@ -1162,6 +1162,193 @@ Para la evaluación, se asigna la siguiente tabla de puntuación teniendo en cue
 </tr>
 
 </table>
+    <h3>Descripción de las características primitivas y cuestionario</h3>
+
+<style>
+.tabla-cuestionario-boehm {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.tabla-cuestionario-boehm th, 
+.tabla-cuestionario-boehm td {
+    border: 1px solid #333;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tabla-cuestionario-boehm th {
+    background: #1db954;
+    color: white;
+}
+
+.left {
+    text-align: left;
+}
+
+.nivel {
+    background: #eef7f1;
+    font-weight: bold;
+}
+
+.puntaje-exc { background: #2ecc71; color: white; }
+.puntaje-bue { background: #3498db; color: white; }
+.puntaje-reg { background: #f1c40f; color: black; }
+</style>
+
+<table class="tabla-cuestionario-boehm">
+
+<tr>
+<th>Alto Nivel</th>
+<th>Nivel Intermedio</th>
+<th>Primitivas</th>
+<th>Pregunta</th>
+<th>Puntaje Esperado</th>
+<th>Puntaje Obtenido</th>
+</tr>
+
+<!-- UTILIDAD GENERAL -->
+<tr class="nivel">
+<td rowspan="2">UTILIDAD GENERAL</td>
+<td rowspan="2">Portabilidad</td>
+<td>Independencia de Dispositivos</td>
+<td class="left">¿Funciona en móvil, PC y web?</td>
+<td class="puntaje-exc">Excelente</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td>Auto-contención</td>
+<td class="left">¿Funciona sin internet?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-reg">Regular</td>
+</tr>
+
+<!-- UTILIDAD -->
+<tr class="nivel">
+<td rowspan="10">UTILIDAD</td>
+<td rowspan="4">Fiabilidad</td>
+<td>Precisión</td>
+<td class="left">¿Reproduce correctamente música?</td>
+<td class="puntaje-exc">Excelente</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td>Completitud</td>
+<td class="left">¿Tiene suficiente contenido?</td>
+<td class="puntaje-exc">Excelente</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td>Robustez</td>
+<td class="left">¿Evita fallos?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-bue">Bueno</td>
+</tr>
+
+<tr>
+<td>Consistencia</td>
+<td class="left">¿Mantiene diseño uniforme?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td rowspan="3">Eficiencia</td>
+<td>Responsabilidad</td>
+<td class="left">¿Responde rápido?</td>
+<td class="puntaje-exc">Excelente</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td>Eficiencia de dispositivos</td>
+<td class="left">¿Funciona en diferentes equipos?</td>
+<td class="puntaje-exc">Excelente</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td>Accesibilidad</td>
+<td class="left">¿Fácil acceso?</td>
+<td class="puntaje-exc">Excelente</td>
+<td class="puntaje-bue">Bueno</td>
+</tr>
+
+<tr>
+<td rowspan="3">Interactividad</td>
+<td>Robustez</td>
+<td class="left">¿Interacción estable?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td>Accesibilidad</td>
+<td class="left">¿Acceso para usuarios con limitaciones?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-reg">Regular</td>
+</tr>
+
+<tr>
+<td>Capacidad de comunicación</td>
+<td class="left">¿Interactúa con el usuario?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<!-- MANTENIBILIDAD -->
+<tr class="nivel">
+<td rowspan="6">MANTENIBILIDAD</td>
+<td rowspan="2">Facilidad de Prueba</td>
+<td>Auto descripción</td>
+<td class="left">¿Tiene ayuda o soporte?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-bue">Bueno</td>
+</tr>
+
+<tr>
+<td>Estructuración</td>
+<td class="left">¿Organiza funciones claramente?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td rowspan="2">Facilidad de Entendimiento</td>
+<td>Concisión</td>
+<td class="left">¿Es fácil de entender?</td>
+<td class="puntaje-exc">Excelente</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td>Legibilidad</td>
+<td class="left">¿Textos claros?</td>
+<td class="puntaje-exc">Excelente</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+<tr>
+<td rowspan="2">Modificabilidad</td>
+<td>Estructuración</td>
+<td class="left">¿Permite cambios sin afectar?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-bue">Bueno</td>
+</tr>
+
+<tr>
+<td>Escalabilidad</td>
+<td class="left">¿Se adapta al crecimiento?</td>
+<td class="puntaje-bue">Bueno</td>
+<td class="puntaje-exc">Excelente</td>
+</tr>
+
+</table>
 </section>
 
 <section id="furps">
